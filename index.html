@@ -3,795 +3,716 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easy Host Algarve — Onboarding</title>
+<meta name="robots" content="noindex">
+<title>Easy Host Algarve — Ficha de Onboarding</title>
 <style>
   :root{
     --green:#324D2E; --green-2:#3F5F3A; --green-tint:#E7ECE2;
-    --cream:#F1EEDC; --page:#FAF8EF; --ink:#22301F; --muted:#6C7A66;
-    --ok:#2E7D57; --err:#B3452F; --line:#D9DECF;
+    --cream:#F1EEDC; --page:#FAF8EF; --ink:#22301F; --muted:#5F6D59;
+    --ok:#2E7D57; --err:#B3452F; --line:#D9DECF; --warn-bg:#FFF6E0; --warn-line:#E8C977;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--page);color:var(--ink);line-height:1.5;font-size:16px}
-  .wrap{max-width:660px;margin:0 auto;padding:0 18px 90px}
-  header{background:var(--green);color:var(--cream);padding:18px 18px 24px;text-align:center;position:relative}
-  header img{width:104px;height:104px;border-radius:16px;margin-bottom:8px}
-  header h1{font-size:20px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-  header p{font-size:13.5px;opacity:.88;max-width:480px;margin:8px auto 0}
+  .wrap{max-width:660px;margin:0 auto;padding:0 16px 90px}
+  header{background:var(--green);color:var(--cream);padding:18px 16px 22px;text-align:center;position:relative}
+  header img{width:92px;height:92px;border-radius:16px;margin-bottom:6px}
+  header h1{font-size:19px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+  header p{font-size:13.5px;opacity:.9;max-width:470px;margin:6px auto 0}
   .lang{position:absolute;top:12px;right:12px;display:flex;border:1.5px solid var(--cream);border-radius:999px;overflow:hidden}
-  .lang button{background:transparent;color:var(--cream);border:none;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer}
+  .lang button{background:transparent;color:var(--cream);border:none;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;border-radius:0}
   .lang button.on{background:var(--cream);color:var(--green)}
-  .tiles{display:flex;gap:5px;justify-content:center;margin:18px 0 6px;flex-wrap:wrap}
-  .tile{width:32px;height:32px;border:2px solid var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;color:var(--green);background:#fff;transition:all .2s}
-  .tile.done{background:var(--green);color:var(--cream)}
-  .tile.now{background:var(--green-tint);box-shadow:0 0 0 3px rgba(50,77,46,.18)}
-  .tiles-label{text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:12px;font-weight:600}
-  @media (prefers-reduced-motion: reduce){.tile{transition:none}}
+  .progress{margin:18px 0 4px;height:8px;background:#E4E8DC;border-radius:999px;overflow:hidden}
+  .progress i{display:block;height:100%;background:var(--green);border-radius:999px;transition:width .3s}
+  .plabel{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:6px}
+  @media (prefers-reduced-motion: reduce){.progress i{transition:none}}
   .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin-top:10px}
-  h2{font-size:18px;color:var(--green);font-weight:800;margin-bottom:2px}
-  .sub{font-size:13.5px;color:var(--muted);margin-bottom:8px}
-  h3{font-size:14px;color:var(--green);font-weight:800;margin:18px 0 2px;text-transform:uppercase;letter-spacing:.06em}
-  label.f{display:block;font-size:13.5px;font-weight:600;margin:13px 0 5px}
-  label.f .opt{font-weight:400;color:var(--muted)}
-  input[type=text],input[type=email],input[type=tel],input[type=date],textarea{
+  h2{font-size:19px;color:var(--green);font-weight:800;margin-bottom:2px}
+  .sub{font-size:14px;color:var(--muted);margin-bottom:6px}
+  h3{font-size:13px;color:var(--green);font-weight:800;margin:22px 0 0;text-transform:uppercase;letter-spacing:.06em;padding-top:14px;border-top:1px solid var(--line)}
+  label.f,.flabel{display:block;font-size:14px;font-weight:600;margin:16px 0 6px}
+  .opt{font-weight:400;color:var(--muted);font-size:13px}
+  input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],textarea{
     width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+  textarea{resize:vertical}
   input:focus,textarea:focus{outline:2px solid var(--green);outline-offset:1px;border-color:var(--green)}
-  .hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:5px}
   .autofill{font-size:12.5px;color:var(--ok);margin-top:4px;display:none;font-weight:600}
-  .choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-  .chip{display:flex;align-items:center;gap:7px;border:1.5px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px;cursor:pointer;background:#fff;user-select:none}
-  .chip input{accent-color:var(--green);width:17px;height:17px;cursor:pointer;flex:none}
+  .choices{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:flex;align-items:center;gap:7px;border:1.5px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px;cursor:pointer;background:#fff;user-select:none;line-height:1.25}
+  .chip input{accent-color:var(--green);width:17px;height:17px;cursor:pointer;flex:none;margin:0}
   .chip:has(input:checked){border-color:var(--green);background:var(--green-tint);font-weight:600}
   .chip:has(input:focus-visible){outline:2px solid var(--green);outline-offset:2px}
-  .chip.sm{padding:8px 13px;font-size:13.5px}
-  .chip.sm input{width:15px;height:15px}
-  .amen{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
-  @media(min-width:520px){.amen{grid-template-columns:1fr 1fr 1fr}}
-  .amen .chip{border-radius:10px;padding:8px 10px;font-size:13.5px}
-  details.help{margin-top:12px;border:1.5px dashed var(--green-2);border-radius:10px;background:var(--green-tint);overflow:hidden}
-  details.help summary{cursor:pointer;padding:10px 14px;font-size:13.5px;font-weight:700;color:var(--green);list-style:none;display:flex;align-items:center;gap:8px}
+  .chip.sm{padding:8px 13px;font-size:14px}
+  .amen{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  @media(min-width:540px){.amen{grid-template-columns:1fr 1fr 1fr}}
+  .amen .chip{border-radius:10px;padding:9px 10px;font-size:13.5px}
+  .counters{display:grid;gap:8px}
+  .counter{display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--line);border-radius:10px;padding:6px 8px 6px 14px;font-size:14.5px}
+  .counter .ctl{display:flex;align-items:center;gap:6px}
+  .counter button{width:38px;height:38px;padding:0;border-radius:9px;background:var(--green-tint);color:var(--green);font-size:20px;line-height:1}
+  .counter output{min-width:26px;text-align:center;font-weight:700;font-size:16px}
+  details.help{margin-top:10px;border:1.5px dashed var(--green-2);border-radius:10px;background:var(--green-tint);overflow:hidden}
+  details.help summary{cursor:pointer;padding:9px 14px;font-size:13.5px;font-weight:700;color:var(--green);list-style:none;display:flex;align-items:center;gap:8px}
+  details.help summary::-webkit-details-marker{display:none}
   details.help summary::before{content:"?";display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--green);color:var(--cream);align-items:center;justify-content:center;font-size:12px;flex:none}
-  details.help .body{padding:10px 16px 13px;font-size:13.5px}
-  details.help ol,details.help ul{padding-left:20px;display:grid;gap:6px}
-  details.help b{color:var(--green)}
+  details.help .body{padding:4px 16px 12px;font-size:13.5px}
+  details.help ol,details.help ul{padding-left:20px;display:grid;gap:5px}
+  .note{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:13.5px;background:var(--green-tint);color:var(--ink)}
+  .note.warn{background:var(--warn-bg);border:1px solid var(--warn-line)}
   .cond{display:none}.cond.show{display:block}
-  .nav{display:flex;gap:10px;margin-top:22px}
+  .nav{display:flex;gap:10px;margin-top:20px}
   button{font-family:inherit;font-size:15.5px;font-weight:700;border-radius:11px;padding:13px 18px;cursor:pointer;border:none}
   .btn-primary{background:var(--green);color:var(--cream);flex:1}
   .btn-primary:hover{background:var(--green-2)}
+  .btn-primary:disabled{opacity:.6;cursor:wait}
   .btn-ghost{background:#fff;color:var(--green);border:1.5px solid var(--green)}
   button:focus-visible,a:focus-visible{outline:3px solid var(--green-2);outline-offset:2px}
-  #resumo{white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:14px;max-height:340px;overflow:auto}
-  .send{display:grid;gap:10px;margin-top:14px}
-  .send a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:15.5px;border-radius:11px;padding:13px 18px}
-  .send .mail{background:var(--green);color:var(--cream)}
-  .send .wa{background:#fff;color:var(--ok);border:1.5px solid var(--ok)}
-  .copied{color:var(--ok);font-size:13.5px;text-align:center;margin-top:8px;display:none;font-weight:600}
-  .privacy{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}
-  .declbox{border:1.5px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px;background:var(--page);margin-top:8px}
+  .need{display:grid;gap:8px;margin:12px 0 4px;padding:0;list-style:none}
+  .need li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+  .need li b{color:var(--green)}
+  .need .ic{flex:none;width:26px;height:26px;border-radius:8px;background:var(--green-tint);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .facts span{font-size:13px;background:var(--page);border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--muted);font-weight:600}
+  .review-sec{border:1px solid var(--line);border-radius:10px;margin-top:10px;overflow:hidden}
+  .review-sec .rh{display:flex;justify-content:space-between;align-items:center;background:var(--page);padding:9px 12px;font-weight:700;font-size:14px;color:var(--green)}
+  .review-sec .rh button{background:none;color:var(--green);font-size:13px;padding:4px 6px;text-decoration:underline}
+  .review-sec dl{display:grid;grid-template-columns:minmax(120px,40%) 1fr;gap:4px 12px;padding:10px 12px;font-size:13.5px}
+  .review-sec dt{color:var(--muted)}
+  .review-sec dd{font-weight:600;word-break:break-word}
+  .declbox{border:1.5px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px;background:var(--page);margin-top:14px}
   .req{color:var(--err);font-weight:800}
-  input.invalid,textarea.invalid{border-color:var(--err)}
+  input.invalid,textarea.invalid,.choices.invalid,.counters.invalid{outline:2px solid var(--err);outline-offset:2px;border-radius:9px}
   .fieldwarn{font-size:12.5px;color:var(--err);margin-top:4px;font-weight:600}
   .navmsg{display:none;font-size:13.5px;color:var(--err);font-weight:700;text-align:center;margin-top:10px}
-  .draftnote{display:none;font-size:12.5px;color:var(--ok);font-weight:600;text-align:center;margin-bottom:8px}
+  .draftnote{display:none;font-size:12.5px;color:var(--ok);font-weight:600;text-align:center;margin-top:8px}
+  .saved{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
   .suggwrap{position:relative}
   .sugg{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1.5px solid var(--line);border-radius:0 0 10px 10px;max-height:220px;overflow:auto;box-shadow:0 8px 20px rgba(34,48,31,.12)}
   .sugg button{display:block;width:100%;text-align:left;background:#fff;border:none;border-bottom:1px solid var(--line);border-radius:0;padding:10px 12px;font-size:13.5px;font-weight:500;color:var(--ink)}
   .sugg button:hover{background:var(--green-tint)}
+  .fallback{display:none;margin-top:14px}
+  .fallback .send{display:grid;gap:10px;margin-top:10px}
+  .fallback a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:15px;border-radius:11px;padding:12px 16px}
+  .fallback .mail{background:var(--green);color:var(--cream)}
+  .fallback .wa{background:#fff;color:var(--ok);border:1.5px solid var(--ok)}
+  .privacy{font-size:12px;color:var(--muted);text-align:center;margin-top:16px}
+  .hp{position:absolute;left:-5000px;width:1px;height:1px;overflow:hidden}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="lang"><button id="langPt" class="on" type="button">PT</button><button id="langEn" type="button">EN</button></div>
+  <div class="lang"><button id="langPt" class="on" type="button" aria-label="Português">PT</button><button id="langEn" type="button" aria-label="English">EN</button></div>
   <img src="data:image/png;base64,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" alt="Easy Host Algarve">
-  <h1 data-tr="Onboarding do Proprietário">Onboarding do Proprietário</h1>
-  <p data-tr="hdr_sub">Toda a informação para gerirmos o seu alojamento de forma profissional — num só formulário, passo a passo. Se não souber algum dado, toque em “Como obter?” ou escolha a opção de ajuda.</p>
+  <h1 id="hdrTitle">Ficha do Proprietário</h1>
+  <p id="hdrSub">Tudo o que precisamos para preparar e publicar o seu alojamento — numa só ficha.</p>
 </header>
 
 <div class="wrap">
-  <div class="tiles" id="tiles" aria-hidden="true"></div>
-  <div class="tiles-label" id="tilesLabel"></div>
-  <div class="draftnote" id="draftNote" data-tr="Rascunho recuperado automaticamente">Rascunho recuperado automaticamente</div>
-  <div id="steps"></div>
-  <div class="nav">
-    <button class="btn-ghost" id="backBtn" type="button" data-tr="← Anterior">← Anterior</button>
-    <button class="btn-primary" id="nextBtn" type="button" data-tr="Continuar →">Continuar →</button>
+  <div id="progressWrap" style="display:none">
+    <div class="progress" aria-hidden="true"><i id="progressBar" style="width:0"></i></div>
+    <div class="plabel"><span id="plabelStep"></span><span id="plabelTime"></span></div>
   </div>
-  <div class="navmsg" id="navMsg" data-tr="Preencha os campos obrigatórios assinalados com *">Preencha os campos obrigatórios assinalados com *</div>
-
-  <form name="onboarding" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="text" name="bot-field">
-    <input type="text" name="nome">
-    <input type="text" name="alojamento">
-    <input type="email" name="email">
-    <input type="text" name="telefone">
-    <input type="text" name="idioma">
-    <textarea name="resumo"></textarea>
-  </form>
+  <div class="draftnote" id="draftNote"></div>
+  <div id="steps"></div>
+  <div class="nav" id="navBar">
+    <button class="btn-ghost" id="backBtn" type="button"></button>
+    <button class="btn-primary" id="nextBtn" type="button"></button>
+  </div>
+  <div class="navmsg" id="navMsg" role="alert"></div>
+  <div class="saved" id="savedNote"></div>
+  <div class="hp" aria-hidden="true"><label>Website <input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
 </div>
 
 <script>
-var DEST_EMAIL = "easyhostalgarve@gmail.com";
-// Chave do Web3Forms (web3forms.com → Create Access Key → recebes por email).
-// Cola-a entre as aspas. Se ficar vazia, o formulário tenta o Netlify Forms.
+// ======================= CONFIGURAÇÃO =======================
+// URL da aplicação Web do Apps Script (Implementar → Aplicação Web). Vazio = usa só o envio por email (Web3Forms).
+var SHEET_ENDPOINT = "";
 var W3F_KEY = "d466b19b-8ec0-4eeb-80ee-c9f2107ccc85";
+var DEST_EMAIL = "easyhostalgarve@gmail.com";
+var WHATSAPP = "351917247797";
+var DRAFT_KEY = "eh_onboarding_draft_v2";
 
-// ——— código postal → município/distrito (Algarve; complementado por geoapi.pt para o resto do país) ———
-var CP_MAP = {
- "8000":["Faro","Faro"],"8004":["Faro","Faro"],"8005":["Faro","Faro"],"8008":["Faro","Faro"],
- "8100":["Loulé","Faro"],"8125":["Loulé","Faro"],"8135":["Loulé","Faro"],
- "8200":["Albufeira","Faro"],"8201":["Albufeira","Faro"],
- "8300":["Silves","Faro"],"8365":["Silves","Faro"],
- "8400":["Lagoa","Faro"],"8401":["Lagoa","Faro"],
- "8500":["Portimão","Faro"],"8501":["Portimão","Faro"],
- "8550":["Monchique","Faro"],"8600":["Lagos","Faro"],"8601":["Lagos","Faro"],
- "8650":["Vila do Bispo","Faro"],"8670":["Aljezur","Faro"],
- "8700":["Olhão","Faro"],"8800":["Tavira","Faro"],
- "8900":["Vila Real de Santo António","Faro"],"8901":["Vila Real de Santo António","Faro"],
- "8950":["Castro Marim","Faro"],"8970":["Alcoutim","Faro"]
+// ======================= TEXTO (PT / EN) =======================
+var lang = (navigator.language||'pt').toLowerCase().indexOf('pt')===0 ? 'pt' : 'en';
+function t(x){ if(x==null) return ''; if(typeof x==='string') return x; return lang==='en' ? (x[1]!=null?x[1]:x[0]) : x[0]; }
+function pt(x){ return typeof x==='string' ? x : (x?x[0]:''); }
+
+var UI = {
+  title:["Ficha do Proprietário","Owner Form"],
+  sub:["Tudo o que precisamos para preparar e publicar o seu alojamento — numa só ficha.","Everything we need to prepare and publish your property — in one form."],
+  next:["Continuar","Continue"], back:["Voltar","Back"], start:["Começar","Start"],
+  step:["Passo","Step"], of:["de","of"], left:["min restantes","min left"],
+  required:["Falta preencher os campos assinalados.","Please complete the highlighted fields."],
+  optional:["opcional","optional"],
+  draft:["Recuperámos as respostas que já tinha dado.","We restored the answers you had already given."],
+  saved:["As respostas ficam guardadas neste dispositivo enquanto preenche.","Your answers are saved on this device as you go."],
+  auto:["preenchido automaticamente","filled in automatically"],
+  nif:["O NIF tem 9 dígitos.","The NIF has 9 digits."],
+  email:["Confirme o email.","Please check the email."],
+  iban:["Confirme o IBAN.","Please check the IBAN."],
+  edit:["Alterar","Edit"],
+  send:["Enviar ficha","Send form"], sending:["A enviar…","Sending…"],
+  okT:["Ficha recebida — obrigado!","Form received — thank you!"],
+  okP:["Vamos rever tudo e entramos em contacto em 48 horas. Pode fechar esta página.","We'll review everything and get back to you within 48 hours. You can close this page."],
+  okDocs:["Falta só enviar os documentos para","Last step: email your documents to"],
+  failT:["Não conseguimos enviar automaticamente.","We couldn't send it automatically."],
+  failP:["As suas respostas estão guardadas. Envie-nos o resumo por um destes meios (é copiado automaticamente):","Your answers are saved. Send us the summary using one of these (it is copied automatically):"],
+  mail:["Enviar por email","Send by email"], wa:["Enviar por WhatsApp","Send by WhatsApp"],
+  declTitle:["Autorização","Authorisation"],
+  declOk:["Li e autorizo, nos termos acima.","I have read and authorise the above."],
+  privacy:["Dados tratados com confidencialidade, ao abrigo do RGPD e do contrato de gestão. Esta ficha nunca pede passwords.","Your data is handled confidentially under the GDPR and the management agreement. This form never asks for passwords."],
+  reviewT:["Rever e enviar","Review and send"],
+  reviewS:["Confirme as respostas. Pode alterar qualquer secção antes de enviar.","Check your answers. You can edit any section before sending."],
+  none:["—","—"]
 };
 
-// ——— traduções (valores canónicos guardados em PT; EN só muda o que se vê) ———
-var TR = {
- "Freguesia":"Parish","País":"Country","Outro":"Other","Espanha":"Spain","Reino Unido":"United Kingdom","França":"France","Alemanha":"Germany",
- "Villa":"Villa","Estúdio":"Studio","Casa geminada":"Townhouse","Casa de campo":"Cottage","Quinta / Monte":"Farmhouse",
- "Tipos de cama":"Bed types","Casal":"Double","Queen":"Queen","King":"King","Individual":"Single","Beliche":"Bunk bed","Sofá-cama":"Sofa bed","Berço (cama)":"Crib (bed)",
- "Quantidades por tipo":"Quantities per type","ex.: 2 casal, 1 sofá-cama":"e.g.: 2 double, 1 sofa bed",
- "Instruções do ar condicionado":"Air-conditioning instructions","como ligar, comandos, limites de utilização":"how to use, remotes, usage limits",
- "Rascunho recuperado automaticamente":"Draft restored automatically",
- "Preencha os campos obrigatórios assinalados com *":"Please fill the required fields marked with *",
- "O NIF deve ter 9 dígitos":"The NIF must have 9 digits","Email inválido":"Invalid email address",
- "mail_ok":"✓ Summary copied. Opening your email app… if the email body opens empty, just paste (Ctrl+V / long-press → Paste).",
- "Submeter à Easy Host Algarve":"Submit to Easy Host Algarve",
- "A enviar…":"Sending…",
- "ou, em alternativa:":"or, alternatively:",
- "sub_err":"Automatic submission failed — please use one of the options below (the summary will be copied).",
- "sub_ok_t":"We've received your details!",
- "sub_ok_p":"Thank you — Easy Host Algarve will review the information and contact you shortly. You can close this page.",
- "[O resumo completo foi copiado — cole-o aqui]":"[The full summary was copied — paste it here]",
- "comece a escrever e escolha uma sugestão":"start typing and pick a suggestion",
- "Onboarding do Proprietário":"Owner Onboarding",
- "hdr_sub":"Everything we need to manage your property professionally — one form, step by step. If you don't know an answer, tap “How to find it?” or choose the help option.",
- "← Anterior":"← Back","Continuar →":"Continue →",
- "Passo":"Step","de":"of",
- "Proprietário":"Owner","Alojamento":"Property","Legal":"Legal","Plataformas":"Platforms","Operação":"Operations","A Casa":"The House","Condições":"Terms","Rever e enviar":"Review & send",
- "(opcional)":"(optional)",
- "1. Identificação do Proprietário":"1. Owner Identification",
- "Nome completo":"Full name","NIF":"Tax number (NIF)","Morada fiscal":"Fiscal address","Email":"Email","Telemóvel":"Mobile phone","IBAN":"IBAN",
- "para transferências de reservas/cauções, se aplicável":"for booking/deposit transfers, if applicable",
- "Dados de faturação":"Billing details","Faturação em":"Billing as","Nome individual":"Individual","Empresa":"Company",
- "Nome fiscal / Denominação":"Legal / company name","NIF / NIPC":"Tax number (NIF/NIPC)",
- "Regime de IVA":"VAT regime","Isenção art.º 53.º":"Exemption (art. 53)","Regime normal (IVA 6%)":"Standard regime (6% VAT)","Não sei":"I don't know",
- "Como saber o regime de IVA?":"How do I check my VAT regime?",
- "Portal das Finanças → A Minha Área → <b>Situação Fiscal – Dados Cadastrais</b> → atividade exercida mostra o enquadramento.":"Portal das Finanças → A Minha Área → <b>Situação Fiscal – Dados Cadastrais</b> → your registered activity shows the VAT framing.",
- "Ou pergunte ao seu contabilista. Se ficar “Não sei”, confirmamos por si.":"Or ask your accountant. If you pick “I don't know”, we'll confirm it for you.",
- "2. Dados do Alojamento":"2. Property Details",
- "Nome comercial do alojamento":"Property (listing) name","Morada completa":"Full address","Código postal":"Postal code","Município":"Municipality","Distrito":"District",
- "Localização Google Maps":"Google Maps location","link ou coordenadas":"link or coordinates",
- "N.º da licença AL (RNAL)":"AL licence number (RNAL)","Data da licença":"Licence date",
- "Tipo de alojamento":"Property type","Apartamento":"Apartment","Moradia":"House / villa","Quarto":"Room",
- "Tipologia":"Typology","Capacidade máxima (hóspedes)":"Max capacity (guests)","N.º de quartos":"Bedrooms",
- "N.º de camas e tipos":"Beds (number & types)","ex.: 2 casal, 2 individuais, 1 sofá-cama":"e.g.: 2 double, 2 single, 1 sofa bed",
- "N.º de casas de banho":"Bathrooms","Área útil (m²)":"Floor area (m²)",
- "Onde encontrar o n.º RNAL?":"Where do I find the RNAL number?",
- "No comprovativo do registo AL (Balcão Único Eletrónico / ePortugal) e na placa “AL”.":"On the AL registration certificate (ePortugal) and on the “AL” plaque.",
- "Consulta pública: <b>rnt.turismodeportugal.pt</b> → Consultar o RNT → Alojamento Local → pesquise pelo nome ou morada.":"Public lookup: <b>rnt.turismodeportugal.pt</b> → Consultar o RNT → Alojamento Local → search by name or address.",
- "3. SIBA / AIMA":"3. SIBA / AIMA","Comunicação legal obrigatória de hóspedes estrangeiros.":"Mandatory legal reporting of foreign guests.",
- "Já está registado no SIBA?":"Already registered with SIBA?","Sim":"Yes","Não — preciso de ajuda":"No — I need help",
- "SIBA — Unidade":"SIBA — Unit","SIBA — Estabelecimento":"SIBA — Establishment","Chave SIBA (ativação)":"SIBA activation key",
- "Onde estão os dados SIBA?":"Where are my SIBA details?",
- "Foram enviados <b>por email</b> na adesão — pesquise “SIBA” na sua caixa de correio.":"They were sent <b>by email</b> when you joined — search your inbox for “SIBA”.",
- "Adesão nova: <b>siba.sef.pt</b> → “Adesão ao SIBA” (vai precisar do n.º RNAL). Recebe os três dados por email.":"New registration: <b>siba.sef.pt</b> → “Adesão ao SIBA” (you'll need the RNAL number). You'll receive the three details by email.",
- "Ou escolha “preciso de ajuda” — fazemos a adesão por si.":"Or choose “I need help” — we'll register for you.",
- "4. Portal das Finanças (AT)":"4. Tax Authority (AT)",
- "Por segurança, nunca pedimos a sua senha principal — apenas um subutilizador limitado à faturação.":"For security, we never ask for your main password — only a sub-user limited to invoicing.",
- "Já tem subutilizador criado?":"Do you already have a sub-user?","Não — vou criar agora":"No — I'll create it now","Preciso de ajuda":"I need help",
- "Utilizador AT (subutilizador)":"AT sub-user","formato NIF/1 — ex.: 123456789/1":"format NIF/1 — e.g.: 123456789/1","Password do subutilizador":"Sub-user password",
- "Criar o subutilizador (5 minutos)":"Create the sub-user (5 minutes)",
- "Aceda a <b>portaldasfinancas.gov.pt</b> e inicie sessão com o seu NIF e senha.":"Go to <b>portaldasfinancas.gov.pt</b> and sign in with your NIF and password.",
- "Pesquise <b>“Gestão de Utilizadores”</b> e abra o serviço.":"Search for <b>“Gestão de Utilizadores”</b> and open it.",
- "Clique em <b>“Criar um novo utilizador”</b>.":"Click <b>“Criar um novo utilizador”</b> (create new user).",
- "Defina nome e password para o subutilizador.":"Set a name and password for the sub-user.",
- "Em Operações Autorizadas selecione <b>WFA — Comunicação de Dados de Faturas</b> e <b>WSE — Comunicação e Gestão de Séries</b>.":"Under authorised operations select <b>WFA — invoice data reporting</b> and <b>WSE — invoice series management</b>.",
- "Guarde — fica no formato NIF/1 (ex.: 123456789/1).":"Save — it will look like NIF/1 (e.g.: 123456789/1).",
- "5. Taxa Turística Municipal":"5. Municipal Tourist Tax","Cada município tem a sua plataforma e regras próprias.":"Each municipality has its own platform and rules.",
- "O alojamento já está registado na plataforma da taxa?":"Is the property registered on the tax platform?","Não":"No",
- "Plataforma / portal utilizado":"Platform / portal used","Utilizador":"Username","Password":"Password",
- "Onde encontro os acessos?":"Where do I find the login?",
- "Procure o email de registo da plataforma da taxa do seu município.":"Look for the registration email from your municipality's tax platform.",
- "Se nunca registou (ou não sabe), escolha essa opção — verificamos junto da câmara e fazemos o registo inicial por si.":"If you never registered (or don't know), pick that option — we'll check with the town hall and register for you.",
- "6. Plataformas de Reserva (OTAs)":"6. Booking Platforms (OTAs)",
- "Airbnb — link do anúncio":"Airbnb — listing link","Airbnb — email da conta":"Airbnb — account email","para envio do convite de Co-Host":"to send the Co-Host invitation",
- "Autoriza adicionar a Easy Host Algarve como Co-Host?":"Authorise adding Easy Host Algarve as Co-Host?","Anúncio novo a criar":"New listing to create",
- "Booking.com — Hotel ID / Property ID":"Booking.com — Hotel ID / Property ID","Booking.com — email de acesso à Extranet":"Booking.com — Extranet email",
- "Booking — acesso preferido":"Booking — preferred access","Adicionar como utilizador (recomendado)":"Add as user (recommended)","Partilha de login":"Share login",
- "VRBO / outras plataformas":"VRBO / other platforms","plataforma, ID da propriedade, email de acesso":"platform, property ID, access email",
- "7. Processamento de Pagamentos":"7. Payments",
- "Quem recebe o dinheiro das reservas?":"Who receives the booking money?","Easy Host Algarve":"Easy Host Algarve",
- "Métodos ativos":"Active methods","Transferência bancária":"Bank transfer",
- "Observações sobre pagamentos":"Payment notes","contas associadas, cauções...":"linked accounts, deposits...",
- "8. Limpeza e Lavandaria":"8. Cleaning & Laundry",
- "Empresa / pessoa de limpeza atual":"Current cleaning company / person","se existir; podemos propor equipa nossa":"if any; we can propose our own team",
- "Contacto telefónico":"Phone contact","Horários / disponibilidade":"Schedule / availability","Valor por limpeza (€)":"Price per clean (€)",
- "Limpeza incluída no preço cobrado ao hóspede?":"Cleaning included in the guest price?",
- "Lavandaria (roupa de cama e atoalhados) incluída?":"Laundry (linen & towels) included?",
- "9. Manutenção — Contactos Técnicos":"9. Maintenance — Technical Contacts",
- "Se não tiver, deixe em branco — acionamos a nossa rede de parceiros.":"If you don't have one, leave blank — we'll use our partner network.",
- "Canalizador":"Plumber","Eletricista":"Electrician","Manutenção de piscina":"Pool maintenance","Jardineiro":"Gardener",
- "Empresa AVAC / ar condicionado":"HVAC / air-conditioning company","Operadora de internet / técnico":"Internet provider / technician","Contacto de emergência (24h)":"Emergency contact (24h)",
- "10. Check-in e Acessos":"10. Check-in & Access",
- "Modalidade de check-in":"Check-in mode","Self check-in":"Self check-in","Presencial":"In person","Ambos":"Both",
- "Método de acesso":"Access method","Cofre de chaves":"Key lockbox","Fechadura inteligente":"Smart lock","Chave física entregue em mão":"Physical key handed over",
- "Código do cofre / fechadura":"Lockbox / smart-lock code","Localização do cofre":"Lockbox location",
- "Procedimento de entrada":"Entry procedure","descrever passo a passo":"describe step by step","N.º de jogos de chaves disponíveis":"Key sets available",
- "11. Internet":"11. Internet","Operadora":"Provider","Nome da rede Wi-Fi (SSID)":"Wi-Fi network name (SSID)","Password do Wi-Fi":"Wi-Fi password",
- "12. Equipamentos e Comodidades":"12. Amenities & Equipment","Assinale tudo o que o alojamento dispõe":"Tick everything the property has",
- "Ar condicionado":"Air conditioning","Aquecimento":"Heating","Piscina":"Pool","Jacuzzi":"Jacuzzi","Churrasco":"BBQ","Máquina de café":"Coffee machine",
- "Máquina de lavar roupa":"Washing machine","Máquina de secar roupa":"Dryer","Máquina de lavar loiça":"Dishwasher","Forno":"Oven","Micro-ondas":"Microwave",
- "Frigorífico/congelador":"Fridge/freezer","TV / Smart TV":"TV / Smart TV","Berço":"Crib","Cadeira de bebé":"High chair","Estacionamento":"Parking",
- "Elevador":"Lift","Varanda/terraço":"Balcony/terrace","Ferro de engomar":"Iron","Secador de cabelo":"Hair dryer","Kit primeiros socorros":"First-aid kit",
- "Outros equipamentos relevantes":"Other relevant equipment",
- "13. Regras da Casa":"13. House Rules",
- "Animais permitidos?":"Pets allowed?","A definir":"To be defined","Permitido fumar?":"Smoking allowed?","Festas/eventos permitidos?":"Parties/events allowed?",
- "Horário de silêncio":"Quiet hours","ex.: 22h00–08h00":"e.g.: 10pm–8am","Hora de check-in":"Check-in time","ex.: a partir das 15h00":"e.g.: from 3pm",
- "Hora de check-out":"Check-out time","ex.: até às 11h00":"e.g.: until 11am","Caução (valor e condições)":"Deposit (amount & terms)",
- "Idade mínima para reservar":"Minimum booking age","Outras regras específicas":"Other specific rules",
- "14. Contactos Úteis":"14. Useful Contacts",
- "Contacto alternativo ao proprietário":"Alternative contact to the owner","nome, relação e telefone":"name, relationship and phone",
- "Condomínio / administração":"Building management","Observações sobre vizinhança/condomínio":"Notes on neighbours/building",
- "15. Materiais para Anúncios":"15. Listing Materials",
- "Consegue disponibilizar (envio por email ou link)":"You can provide (by email or link)",
- "Descrição da casa":"House description","Destaques/pontos fortes":"Highlights/strengths","Fotografias em alta resolução":"High-resolution photos",
- "Manual da casa":"House manual","Guia local (restaurantes, praias…)":"Local guide (restaurants, beaches…)","Instruções dos eletrodomésticos":"Appliance instructions",
- "O que gostaria de destacar no anúncio?":"What would you like the listing to highlight?","vista, localização, história da casa…":"view, location, the house's story…",
- "16. Condições Financeiras":"16. Financial Terms",
- "Plano de serviço contratado":"Service plan","Comissão acordada (%)":"Agreed commission (%)","IVA aplicável":"Applicable VAT","ex.: 23% sobre a comissão":"e.g.: 23% on the commission",
- "Limpezas — quem paga":"Cleaning — paid by","Amenities (consumíveis) — quem paga":"Amenities (consumables) — paid by",
- "Manutenções correntes — quem paga":"Routine maintenance — paid by","Manutenção da piscina — quem paga":"Pool maintenance — paid by","Jardim — quem paga":"Garden — paid by",
- "Hóspede":"Guest","N/A":"N/A",
- "17. Declaração de Autorização":"17. Authorisation Declaration",
- "Nome do declarante":"Declarant's name","nome completo, como no NIF":"full name, as registered",
- " Li e autorizo, nos termos acima":" I have read and authorise, under the terms above",
- "decl":"As owner/legal representative of the property identified in this form, I authorise Easy Host Algarve, under the management agreement in force, to: create, manage and optimise listings on booking platforms; communicate with guests on my behalf; set prices, availability and booking conditions; receive booking payments and deposits on my behalf (if applicable, per section 7); represent me before the booking platforms; carry out the mandatory legal reporting (SIBA/AIMA, Tax Authority — receipts and Modelo 30 where applicable — and Municipal Tourist Tax); and hire and coordinate cleaning, laundry and maintenance services under the terms of section 16.",
- "rev_sub":"Check the summary — you can go back to fix anything. The summary is generated in Portuguese for our records.",
- "Confira o resumo — pode voltar atrás para corrigir.":"Check the summary — you can go back to fix anything.",
- "📧 Enviar por email":"📧 Send by email","💬 Enviar por WhatsApp":"💬 Send by WhatsApp","Copiar resumo":"Copy summary",
- "✓ Resumo copiado — cole na mensagem para a Easy Host":"✓ Summary copied — paste it in your message to Easy Host",
- "privacy":"Your data is treated confidentially, under GDPR and the management agreement. This form stores nothing on any server — the summary is only sent by you. Please also send: a copy of the AL licence, high-resolution photos and the house manual (if any).",
- "preenchido automaticamente":"filled automatically"
-};
-var lang='pt';
-function L(pt){return lang==='en'&&TR[pt]?TR[pt]:pt;}
-var REG=[]; // {el, prop, pt}
-function reg(el,prop,pt){REG.push({el:el,prop:prop,pt:pt});el[prop]=L(pt);return el;}
-function applyLang(){
-  REG.forEach(function(r){r.el[r.prop]=L(r.pt);});
-  document.querySelectorAll('[data-tr]').forEach(function(e){
-    var k=e.getAttribute('data-tr');e.innerHTML=L(TR[k]!==undefined&&k!==TR[k]&&(k==='hdr_sub'||k==='rev_sub'||k==='privacy')?k:k);
-    e.innerHTML=(lang==='en'&&TR[k])?TR[k]:(k==='hdr_sub'||k==='rev_sub'||k==='privacy')?e.getAttribute('data-pt')||e.innerHTML:k;
-  });
-  renderLabel();
-}
-// simplificação: para os data-tr fixos guardamos o PT original
-document.querySelectorAll('[data-tr]').forEach(function(e){e.setAttribute('data-pt',e.innerHTML);});
-function applyLangFixed(){
-  document.querySelectorAll('[data-tr]').forEach(function(e){
-    var k=e.getAttribute('data-tr');
-    e.innerHTML=(lang==='en')?(TR[k]||e.getAttribute('data-pt')):(e.getAttribute('data-pt'));
-  });
-}
-
-// ——— definição do formulário (secções 1–17) ———
-var STEPS=[
- {t:"Proprietário",secs:[
-  {h:"1. Identificação do Proprietário",fields:[
-   {id:"nome",l:"Nome completo",req:1},
-   {id:"nif",l:"NIF",im:"numeric",ph:"9 dígitos",req:1},
-   {id:"morada_fiscal",l:"Morada fiscal"},
-   {id:"email",l:"Email",type:"email",req:1},
-   {id:"tel",l:"Telemóvel",im:"tel",req:1},
-   {id:"iban",l:"IBAN",hint:"para transferências de reservas/cauções, se aplicável",ph:"PT50 ..."}]},
-  {h:"Dados de faturação",fields:[
-   {id:"fat_tipo",l:"Faturação em",type:"radio",opts:["Nome individual","Empresa"]},
-   {id:"fat_nome",l:"Nome fiscal / Denominação",showIf:["fat_tipo",["Empresa"]]},
-   {id:"fat_nipc",l:"NIF / NIPC",showIf:["fat_tipo",["Empresa"]],im:"numeric"},
-   {id:"iva",l:"Regime de IVA",type:"radio",opts:["Isenção art.º 53.º","Regime normal (IVA 6%)","Não sei"]}],
-   help:{t:"Como saber o regime de IVA?",items:["Portal das Finanças → A Minha Área → <b>Situação Fiscal – Dados Cadastrais</b> → atividade exercida mostra o enquadramento.","Ou pergunte ao seu contabilista. Se ficar “Não sei”, confirmamos por si."]}}]},
- {t:"Alojamento",secs:[
-  {h:"2. Dados do Alojamento",fields:[
-   {id:"aloj_nome",l:"Nome comercial do alojamento",req:1},
-   {id:"aloj_morada",l:"Morada completa",req:1,sugg:1,hint:"comece a escrever e escolha uma sugestão"},
-   {id:"cp",l:"Código postal",ph:"0000-000",req:1},
-   {id:"municipio",l:"Município",auto:1,dl:"dl_mun"},
-   {id:"freguesia",l:"Freguesia",auto:1,opt:1},
-   {id:"distrito",l:"Distrito",auto:1,dl:"dl_dist"},
-   {id:"pais",l:"País",type:"radio",sm:1,def:"Portugal",opts:["Portugal","Espanha","Reino Unido","França","Alemanha","Outro"]},
-   {id:"maps",l:"Localização Google Maps",opt:1,ph:"link ou coordenadas"},
-   {id:"rnal",l:"N.º da licença AL (RNAL)",ph:"ex.: 12345/AL",req:1},
-   {id:"rnal_data",l:"Data da licença",type:"date",opt:1},
-   {id:"tipo_aloj",l:"Tipo de alojamento",type:"radio",sm:1,opts:["Apartamento","Moradia","Villa","Estúdio","Casa geminada","Casa de campo","Quinta / Monte","Quarto"]},
-   {id:"tipologia",l:"Tipologia",type:"radio",sm:1,opts:["T0","T1","T2","T3","T4","T5","T6+"]},
-   {id:"capacidade",l:"Capacidade máxima (hóspedes)",type:"radio",sm:1,opts:["2","3","4","5","6","7","8","9","10","12+"]},
-   {id:"quartos",l:"N.º de quartos",type:"radio",sm:1,opts:["0","1","2","3","4","5","6+"]},
-   {id:"cama_tipos",l:"Tipos de cama",type:"multi",sm:1,opts:["Casal","Queen","King","Individual","Beliche","Sofá-cama","Berço (cama)"]},
-   {id:"camas",l:"Quantidades por tipo",ph:"ex.: 2 casal, 1 sofá-cama",opt:1},
-   {id:"wc",l:"N.º de casas de banho",type:"radio",sm:1,opts:["1","2","3","4+"]},
-   {id:"area",l:"Área útil (m²)",opt:1,im:"numeric"}],
-   help:{t:"Onde encontrar o n.º RNAL?",items:["No comprovativo do registo AL (Balcão Único Eletrónico / ePortugal) e na placa “AL”.","Consulta pública: <b>rnt.turismodeportugal.pt</b> → Consultar o RNT → Alojamento Local → pesquise pelo nome ou morada."]}}]},
- {t:"Legal",secs:[
-  {h:"3. SIBA / AIMA",intro:"Comunicação legal obrigatória de hóspedes estrangeiros.",fields:[
-   {id:"siba_estado",l:"Já está registado no SIBA?",type:"radio",opts:["Sim","Não — preciso de ajuda"]},
-   {id:"siba_unidade",l:"SIBA — Unidade",showIf:["siba_estado",["Sim"]]},
-   {id:"siba_estab",l:"SIBA — Estabelecimento",showIf:["siba_estado",["Sim"]]},
-   {id:"siba_chave",l:"Chave SIBA (ativação)",showIf:["siba_estado",["Sim"]]}],
-   help:{t:"Onde estão os dados SIBA?",items:["Foram enviados <b>por email</b> na adesão — pesquise “SIBA” na sua caixa de correio.","Adesão nova: <b>siba.sef.pt</b> → “Adesão ao SIBA” (vai precisar do n.º RNAL). Recebe os três dados por email.","Ou escolha “preciso de ajuda” — fazemos a adesão por si."]}},
-  {h:"4. Portal das Finanças (AT)",intro:"Por segurança, nunca pedimos a sua senha principal — apenas um subutilizador limitado à faturação.",fields:[
-   {id:"at_estado",l:"Já tem subutilizador criado?",type:"radio",opts:["Sim","Não — vou criar agora","Preciso de ajuda"]},
-   {id:"at_user",l:"Utilizador AT (subutilizador)",ph:"formato NIF/1 — ex.: 123456789/1",showIf:["at_estado",["Sim","Não — vou criar agora"]]},
-   {id:"at_pass",l:"Password do subutilizador",showIf:["at_estado",["Sim","Não — vou criar agora"]]}],
-   help:{t:"Criar o subutilizador (5 minutos)",ol:1,items:["Aceda a <b>portaldasfinancas.gov.pt</b> e inicie sessão com o seu NIF e senha.","Pesquise <b>“Gestão de Utilizadores”</b> e abra o serviço.","Clique em <b>“Criar um novo utilizador”</b>.","Defina nome e password para o subutilizador.","Em Operações Autorizadas selecione <b>WFA — Comunicação de Dados de Faturas</b> e <b>WSE — Comunicação e Gestão de Séries</b>.","Guarde — fica no formato NIF/1 (ex.: 123456789/1)."]}},
-  {h:"5. Taxa Turística Municipal",intro:"Cada município tem a sua plataforma e regras próprias.",fields:[
-   {id:"tt_estado",l:"O alojamento já está registado na plataforma da taxa?",type:"radio",opts:["Sim","Não","Não sei"]},
-   {id:"tt_portal",l:"Plataforma / portal utilizado",showIf:["tt_estado",["Sim"]]},
-   {id:"tt_user",l:"Utilizador",showIf:["tt_estado",["Sim"]]},
-   {id:"tt_pass",l:"Password",showIf:["tt_estado",["Sim"]]}],
-   help:{t:"Onde encontro os acessos?",items:["Procure o email de registo da plataforma da taxa do seu município.","Se nunca registou (ou não sabe), escolha essa opção — verificamos junto da câmara e fazemos o registo inicial por si."]}}]},
- {t:"Plataformas",secs:[
-  {h:"6. Plataformas de Reserva (OTAs)",fields:[
-   {id:"abnb_link",l:"Airbnb — link do anúncio",opt:1},
-   {id:"abnb_email",l:"Airbnb — email da conta",hint:"para envio do convite de Co-Host",opt:1,type:"email"},
-   {id:"abnb_cohost",l:"Autoriza adicionar a Easy Host Algarve como Co-Host?",type:"radio",opts:["Sim","Não","Anúncio novo a criar"]},
-   {id:"bk_id",l:"Booking.com — Hotel ID / Property ID",opt:1},
-   {id:"bk_email",l:"Booking.com — email de acesso à Extranet",opt:1,type:"email"},
-   {id:"bk_acesso",l:"Booking — acesso preferido",type:"radio",opts:["Adicionar como utilizador (recomendado)","Partilha de login","Anúncio novo a criar"]},
-   {id:"outras_otas",l:"VRBO / outras plataformas",type:"textarea",opt:1,ph:"plataforma, ID da propriedade, email de acesso"}]},
-  {h:"7. Processamento de Pagamentos",fields:[
-   {id:"pag_quem",l:"Quem recebe o dinheiro das reservas?",type:"radio",opts:["Proprietário","Easy Host Algarve"]},
-   {id:"pag_metodos",l:"Métodos ativos",type:"multi",opts:["Booking Payments","Airbnb Payments","Stripe","Revolut","Transferência bancária"]},
-   {id:"pag_obs",l:"Observações sobre pagamentos",type:"textarea",opt:1,ph:"contas associadas, cauções..."}]}]},
- {t:"Operação",secs:[
-  {h:"8. Limpeza e Lavandaria",fields:[
-   {id:"limp_quem",l:"Empresa / pessoa de limpeza atual",hint:"se existir; podemos propor equipa nossa",opt:1},
-   {id:"limp_tel",l:"Contacto telefónico",opt:1,im:"tel"},
-   {id:"limp_email",l:"Email",opt:1,type:"email"},
-   {id:"limp_horarios",l:"Horários / disponibilidade",opt:1},
-   {id:"limp_valor",l:"Valor por limpeza (€)",opt:1,im:"numeric"},
-   {id:"limp_incl",l:"Limpeza incluída no preço cobrado ao hóspede?",type:"radio",opts:["Sim","Não"]},
-   {id:"lav_incl",l:"Lavandaria (roupa de cama e atoalhados) incluída?",type:"radio",opts:["Sim","Não"]}]},
-  {h:"9. Manutenção — Contactos Técnicos",intro:"Se não tiver, deixe em branco — acionamos a nossa rede de parceiros.",fields:[
-   {id:"man_canalizador",l:"Canalizador",opt:1},
-   {id:"man_eletricista",l:"Eletricista",opt:1},
-   {id:"man_piscina",l:"Manutenção de piscina",opt:1,showIf:["amenities",["Piscina","Jacuzzi"]]},
-   {id:"man_jardineiro",l:"Jardineiro",opt:1},
-   {id:"man_avac",l:"Empresa AVAC / ar condicionado",opt:1},
-   {id:"man_net",l:"Operadora de internet / técnico",opt:1},
-   {id:"man_emerg",l:"Contacto de emergência (24h)",opt:1}]},
-  {h:"10. Check-in e Acessos",fields:[
-   {id:"ci_modo",l:"Modalidade de check-in",type:"radio",opts:["Self check-in","Presencial","Ambos"]},
-   {id:"ci_acesso",l:"Método de acesso",type:"radio",opts:["Cofre de chaves","Fechadura inteligente","Chave física entregue em mão"]},
-   {id:"ci_codigo",l:"Código do cofre / fechadura",opt:1,showIf:["ci_acesso",["Cofre de chaves","Fechadura inteligente"]]},
-   {id:"ci_local",l:"Localização do cofre",opt:1,showIf:["ci_acesso",["Cofre de chaves"]]},
-   {id:"ci_proc",l:"Procedimento de entrada",type:"textarea",ph:"descrever passo a passo",opt:1},
-   {id:"ci_chaves",l:"N.º de jogos de chaves disponíveis",opt:1,im:"numeric"}]},
-  {h:"11. Internet",fields:[
-   {id:"net_operadora",l:"Operadora",opt:1},
-   {id:"net_ssid",l:"Nome da rede Wi-Fi (SSID)",opt:1},
-   {id:"net_pass",l:"Password do Wi-Fi",opt:1}]}]},
- {t:"A Casa",secs:[
-  {h:"12. Equipamentos e Comodidades",fields:[
-   {id:"amenities",l:"Assinale tudo o que o alojamento dispõe",type:"amen",opts:["Ar condicionado","Aquecimento","Piscina","Jacuzzi","Churrasco","Máquina de café","Máquina de lavar roupa","Máquina de secar roupa","Máquina de lavar loiça","Forno","Micro-ondas","Frigorífico/congelador","TV / Smart TV","Berço","Cadeira de bebé","Estacionamento","Elevador","Varanda/terraço","Ferro de engomar","Secador de cabelo","Kit primeiros socorros"]},
-   {id:"ac_instrucoes",l:"Instruções do ar condicionado",type:"textarea",opt:1,ph:"como ligar, comandos, limites de utilização",showIf:["amenities",["Ar condicionado"]]},
-   {id:"amen_outros",l:"Outros equipamentos relevantes",type:"textarea",opt:1}]},
-  {h:"13. Regras da Casa",fields:[
-   {id:"regra_animais",l:"Animais permitidos?",type:"radio",opts:["Sim","Não","A definir"]},
-   {id:"regra_fumar",l:"Permitido fumar?",type:"radio",opts:["Sim","Não"]},
-   {id:"regra_festas",l:"Festas/eventos permitidos?",type:"radio",opts:["Sim","Não"]},
-   {id:"regra_silencio",l:"Horário de silêncio",ph:"ex.: 22h00–08h00",opt:1},
-   {id:"regra_checkin",l:"Hora de check-in",ph:"ex.: a partir das 15h00"},
-   {id:"regra_checkout",l:"Hora de check-out",ph:"ex.: até às 11h00"},
-   {id:"regra_caucao",l:"Caução (valor e condições)",opt:1},
-   {id:"regra_idade",l:"Idade mínima para reservar",opt:1,im:"numeric"},
-   {id:"regra_outras",l:"Outras regras específicas",type:"textarea",opt:1}]},
-  {h:"14. Contactos Úteis",fields:[
-   {id:"ct_alt",l:"Contacto alternativo ao proprietário",ph:"nome, relação e telefone",opt:1},
-   {id:"ct_condominio",l:"Condomínio / administração",opt:1},
-   {id:"ct_obs",l:"Observações sobre vizinhança/condomínio",type:"textarea",opt:1}]},
-  {h:"15. Materiais para Anúncios",fields:[
-   {id:"mat_tem",l:"Consegue disponibilizar (envio por email ou link)",type:"multi",opts:["Descrição da casa","Destaques/pontos fortes","Fotografias em alta resolução","Manual da casa","Guia local (restaurantes, praias…)","Instruções dos eletrodomésticos"]},
-   {id:"mat_destaque",l:"O que gostaria de destacar no anúncio?",type:"textarea",ph:"vista, localização, história da casa…",opt:1}]}]},
- {t:"Condições",secs:[
-  {h:"16. Condições Financeiras",fields:[
-   {id:"plano",l:"Plano de serviço contratado",type:"radio",opts:["Essential (15%)","Signature (20%)","Bespoke (25%)"]},
-   {id:"comissao",l:"Comissão acordada (%)",im:"numeric",req:1},
-   {id:"cond_iva",l:"IVA aplicável",opt:1,ph:"ex.: 23% sobre a comissão"},
-   {id:"custo_limpezas",l:"Limpezas — quem paga",type:"radio",opts:["Proprietário","Easy Host Algarve","Hóspede"]},
-   {id:"custo_amenities",l:"Amenities (consumíveis) — quem paga",type:"radio",opts:["Proprietário","Easy Host Algarve","Hóspede"]},
-   {id:"custo_manut",l:"Manutenções correntes — quem paga",type:"radio",opts:["Proprietário","Easy Host Algarve","Hóspede"]},
-   {id:"custo_piscina",l:"Manutenção da piscina — quem paga",type:"radio",opts:["Proprietário","Easy Host Algarve","Hóspede","N/A"]},
-   {id:"custo_jardim",l:"Jardim — quem paga",type:"radio",opts:["Proprietário","Easy Host Algarve","Hóspede","N/A"]}]},
-  {h:"17. Declaração de Autorização",decl:1,fields:[
-   {id:"decl_nome",l:"Nome do declarante",ph:"nome completo, como no NIF",req:1},
-   {id:"decl_ok",l:"",type:"declcheck"}]}]}
+var DECL = [
+ "Na qualidade de proprietário(a) ou representante legal do alojamento identificado nesta ficha, autorizo a Easy Host Algarve, no âmbito do contrato de gestão, a: criar e gerir os anúncios nas plataformas de reserva, como co-anfitriã nas contas em meu nome; comunicar com os hóspedes e definir preços, disponibilidade e regras; emitir em meu nome as faturas aos hóspedes através de software certificado; fazer por minha conta as comunicações legais obrigatórias (registo de Alojamento Local, SIBA, taxa turística municipal e INE); e coordenar limpeza, lavandaria e manutenção. Autorizo também o tratamento destes dados pessoais para estes fins, nos termos do RGPD.",
+ "As the owner or legal representative of the property in this form, I authorise Easy Host Algarve, under the management agreement, to: create and manage the listings on booking platforms, as co-host on accounts in my name; communicate with guests and set prices, availability and rules; issue guest invoices in my name through certified software; carry out the mandatory legal filings on my behalf (short-term rental registration, SIBA, municipal tourist tax and INE); and coordinate cleaning, laundry and maintenance. I also authorise the processing of this personal data for these purposes, under the GDPR."
 ];
 
-var DECL_PT="Na qualidade de proprietário(a)/legal representante do alojamento identificado, autorizo a Easy Host Algarve, no âmbito do contrato de gestão celebrado, a: criar, gerir e otimizar anúncios nas plataformas de reserva; comunicar com hóspedes em meu nome; definir preços, disponibilidade e condições; receber pagamentos de reservas e cauções em meu nome (se aplicável, conforme a secção 7); representar-me junto das plataformas; efetuar as comunicações legais obrigatórias (SIBA/AIMA, AT — recibos e Modelo 30 quando aplicável — e Taxa Turística Municipal); e contratar e coordenar serviços de limpeza, lavandaria e manutenção nos termos da secção 16.";
-TR[DECL_PT]=TR["decl"];
+var SIM=["Sim","Yes"], NAO=["Não","No"], NAOSEI=["Não sei","Not sure"];
 
-// ——— motor ———
-var stepsEl=document.getElementById('steps'),tiles=document.getElementById('tiles'),
-    tilesLabel=document.getElementById('tilesLabel'),
-    backBtn=document.getElementById('backBtn'),nextBtn=document.getElementById('nextBtn');
-var current=0,TOTAL=STEPS.length+1;
+// ======================= FICHA =======================
+// tipos: text (default) | email | tel | date | number | textarea | radio | multi | amen | counters | note
+var STEPS = [
+ {id:"intro", intro:true, t:["Antes de começar","Before you start"], min:0},
+
+ {id:"sobre", t:["Sobre si","About you"], min:3, secs:[
+  {fields:[
+   {id:"tipo",l:["É proprietário a título…","Do you own it as…"],type:"radio",req:1,opts:[["Particular","An individual"],["Empresa","A company"]]},
+   {id:"empresa",l:["Nome da empresa","Company name"],req:1,showIf:["tipo",["Empresa"]]},
+   {id:"nome",l:["Nome completo","Full name"],req:1,hint:["Como aparece no seu documento de identificação.","As shown on your ID."],hintIf:{"tipo":{"Empresa":["Do representante legal da empresa.","Of the company's legal representative."]}},ac:"name"},
+   {id:"nif",l:["NIF","Portuguese tax number (NIF)"],req:1,im:"numeric",ph:["9 dígitos","9 digits"],hintIf:{"tipo":{"Empresa":["Indique o NIPC da empresa.","Enter the company's NIPC."]}},check:"nif"},
+   {id:"email",l:["Email","Email"],type:"email",req:1,ac:"email",check:"email"},
+   {id:"telemovel",l:["Telemóvel","Mobile"],type:"tel",req:1,ac:"tel",ph:["+351 912 345 678","+44 7700 900123"]},
+   {id:"idioma",l:["Em que língua prefere que falemos consigo?","Which language do you prefer we use?"],type:"radio",sm:1,req:1,opts:[["Português","Portuguese"],"English","Français","Deutsch","Español","Nederlands"]}
+  ]},
+  {h:["Identificação","Identification"],fields:[
+   {id:"doc",l:["N.º do Cartão de Cidadão ou passaporte","ID card or passport number"],req:1},
+   {id:"docValidade",l:["Validade do documento","Document expiry date"],type:"date",opt:1},
+   {id:"nacionalidade",l:["Nacionalidade","Nationality"],opt:1},
+   {id:"paisResidencia",l:["País onde vive","Country you live in"],type:"radio",sm:1,req:1,def:"Portugal",opts:["Portugal",["Reino Unido","United Kingdom"],["França","France"],["Alemanha","Germany"],["Países Baixos","Netherlands"],["Espanha","Spain"],["Outro","Other"]]},
+   {id:"paisOutro",l:["Qual?","Which one?"],req:1,showIf:["paisResidencia",["Outro"]]},
+   {id:"residenteFiscal",l:["É residente fiscal em Portugal?","Are you a tax resident in Portugal?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],hint:["Em regra, quem vive em Portugal mais de 183 dias por ano.","As a rule, anyone living in Portugal more than 183 days a year."]},
+   {id:"morada",l:["Morada fiscal completa, com código postal","Full tax address, including postcode"],type:"textarea",rows:2,req:1,ac:"street-address"}
+  ]},
+  {h:["Conta para receber as reservas","Account for booking payouts"],fields:[
+   {id:"iban",l:["IBAN","IBAN"],req:1,ph:["PT50 …","PT50 …"],check:"iban",hint:["As plataformas pagam diretamente para esta conta, em seu nome. A Easy Host nunca recebe o seu dinheiro.","Platforms pay straight into this account, in your name. Easy Host never holds your money."]},
+   {id:"ibanProprio",l:["A conta está em seu nome?","Is the account in your name?"],type:"radio",req:1,def:"Sim",opts:[SIM,NAO]},
+   {id:"ibanTitular",l:["Titular da conta","Account holder"],req:1,showIf:["ibanProprio",["Não"]]},
+   {id:"contactoAlt",l:["Contacto alternativo (nome e telefone)","Alternative contact (name and phone)"],opt:1,hint:["Alguém a quem possamos ligar se não o conseguirmos contactar.","Someone we can call if we can't reach you."]}
+  ]}
+ ]},
+
+ {id:"financas", t:["Finanças","Tax"], min:2, secs:[
+  {intro:["Serve para faturarmos aos hóspedes em seu nome. Se não souber alguma resposta, escolha “Não sei” — tratamos disso consigo.","This lets us invoice guests in your name. If you don't know an answer, choose “Not sure” — we'll sort it out with you."],fields:[
+   {id:"atividade",l:["Tem atividade aberta nas Finanças?","Do you have an activity registered with the Tax Authority?"],type:"radio",req:1,opts:[["Sim, de Alojamento Local (CAE 55201)","Yes, short-term rental (CAE 55201)"],["Sim, mas de outra atividade","Yes, but a different activity"],NAO,NAOSEI]},
+   {id:"regimeIva",l:["Regime de IVA","VAT regime"],type:"radio",req:1,opts:[["Isento (art.º 53.º)","Exempt (art. 53)"],["Regime normal","Standard regime"],NAOSEI],
+    help:{t:["Como confirmar?","How to check?"],items:[["Portal das Finanças → <b>Situação Fiscal</b> → <b>Dados Cadastrais</b> → Atividade.","Portal das Finanças → <b>Situação Fiscal</b> → <b>Dados Cadastrais</b> → Atividade."],["Ou pergunte ao seu contabilista.","Or ask your accountant."]]}},
+   {id:"temContabilista",l:["Tem contabilista?","Do you have an accountant?"],type:"radio",req:1,opts:[SIM,NAO]},
+   {id:"contabilista",l:["Nome do contabilista","Accountant's name"],opt:1,showIf:["temContabilista",["Sim"]]},
+   {id:"contabilistaContacto",l:["Email ou telefone do contabilista","Accountant's email or phone"],opt:1,showIf:["temContabilista",["Sim"]]}
+  ]},
+  {h:["Acessos","Access"],fields:[
+   {id:"cmd",l:["Tem a Chave Móvel Digital ativa?","Is your Chave Móvel Digital active?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],
+    help:{t:["O que é?","What is it?"],items:[["É a assinatura digital do Estado, ligada ao seu telemóvel. É precisa para registar o Alojamento Local.","It's the government's digital signature, linked to your phone. It's needed to register the rental."],["Ativa-se em <b>autenticacao.gov.pt</b> ou num balcão do Cidadão.","Activate it at <b>autenticacao.gov.pt</b> or at a Citizen's Shop."]]}},
+   {id:"senhaAT",l:["Tem a senha do Portal das Finanças?","Do you have your Portal das Finanças password?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI]},
+   {id:"n_senhaAT",type:"note",warn:1,showIf:["senhaAT",["Não","Não sei"]],l:["Peça-a já em portaldasfinancas.gov.pt → “Registar-se”. Chega por carta e pode demorar alguns dias — é o passo que mais atrasa o arranque.","Request it now at portaldasfinancas.gov.pt → “Registar-se”. It arrives by post and can take several days — it's the step that most often delays the start."]},
+   {id:"subAT",l:["Já criou um subutilizador das Finanças para faturação?","Have you created a Tax Portal sub-user for invoicing?"],type:"radio",req:1,opts:[SIM,["Ainda não — fazemos juntos","Not yet — we'll do it together"],["Não sei o que é","I don't know what it is"]]},
+   {id:"n_pass",type:"note",l:["Não escreva passwords nesta ficha. Quando forem precisas, pedimo-las por um canal seguro.","Don't write any passwords in this form. When needed, we'll ask through a secure channel."]}
+  ]}
+ ]},
+
+ {id:"imovel", t:["O imóvel","The property"], min:4, secs:[
+  {fields:[
+   {id:"nomeAloj",l:["Nome do alojamento","Property name"],opt:1,hint:["Se ainda não tem, sugerimos um.","If you don't have one yet, we'll suggest one."]},
+   {id:"moradaAloj",l:["Morada do imóvel","Property address"],req:1,sugg:1,hint:["Comece a escrever e escolha a sugestão.","Start typing and pick a suggestion."]},
+   {id:"codPostalAloj",l:["Código postal","Postcode"],req:1,ph:["8800-000","8800-000"],im:"numeric"},
+   {id:"municipio",l:["Concelho","Municipality"],req:1,auto:1,dl:"dl_mun"},
+   {id:"freguesia",l:["Freguesia","Parish"],opt:1,auto:1},
+   {id:"maps",l:["Localização no Google Maps","Google Maps location"],opt:1,ph:["link ou coordenadas","link or coordinates"]}
+  ]},
+  {h:["Características","Layout"],fields:[
+   {id:"modalidade",l:["Tipo de imóvel","Property type"],type:"radio",req:1,opts:[["Moradia","House / villa"],["Apartamento","Apartment"],["Quartos na casa onde vivo","Rooms in my own home"]]},
+   {id:"tipologia",l:["Tipologia","Number of bedrooms"],type:"radio",sm:1,req:1,opts:[["T0","Studio"],["T1","1"],["T2","2"],["T3","3"],["T4","4"],["T5","5"],["T6+","6+"]]},
+   {id:"wc",l:["Casas de banho","Bathrooms"],type:"radio",sm:1,req:1,opts:["1","2","3","4+"]},
+   {id:"camas",l:["Camas","Beds"],type:"counters",req:1,opts:[["Casal","Double"],["Individual","Single"],["Sofá-cama","Sofa bed"],["Beliche","Bunk bed"]],hint:["Indique quantas há de cada tipo.","How many of each type."]},
+   {id:"capacidade",l:["Máximo de hóspedes","Maximum guests"],type:"radio",sm:1,req:1,opts:["2","3","4","5","6","7","8","9","10","11","12+"]},
+   {id:"n_cap",type:"note",dyn:"cap",l:["",""]},
+   {id:"area",l:["Área útil (m²)","Floor area (m²)"],opt:1,im:"numeric"},
+   {id:"condominio",l:["Contacto da administração do condomínio","Building management contact"],opt:1,showIf:["modalidade",["Apartamento"]]}
+  ]},
+  {h:["Documentos do imóvel","Property documents"],fields:[
+   {id:"artigo",l:["Artigo matricial","Land registry article number"],opt:1,
+    help:{t:["Onde encontro?","Where do I find it?"],items:[["Na caderneta predial: Portal das Finanças → <b>Imóveis</b> → <b>Consultar Caderneta Predial</b>. Ex.: “U-1234”.","On the property tax record (caderneta predial): Portal das Finanças → <b>Imóveis</b> → <b>Consultar Caderneta Predial</b>. E.g. “U-1234”."]]}},
+   {id:"licenca",l:["Licença de utilização","Occupancy permit"],type:"radio",req:1,opts:[["Tenho","I have it"],["Prédio anterior a 1951","Building from before 1951"],NAOSEI]},
+   {id:"licencaNum",l:["N.º da licença de utilização","Permit number"],opt:1,showIf:["licenca",["Tenho"]]},
+   {id:"temRnal",l:["Já tem registo de Alojamento Local (RNAL)?","Is the property already registered as a short-term rental (RNAL)?"],type:"radio",req:1,opts:[SIM,["Ainda não — tratamos nós","Not yet — we'll handle it"],NAOSEI]},
+   {id:"rnal",l:["N.º de registo","Registration number"],req:1,ph:["ex.: 123456/AL","e.g. 123456/AL"],showIf:["temRnal",["Sim"]],
+    help:{t:["Onde encontro?","Where do I find it?"],items:[["No comprovativo do registo e na placa “AL”. Também em <b>rnt.turismodeportugal.pt</b> → Alojamento Local.","On the registration certificate and the “AL” plaque. Also at <b>rnt.turismodeportugal.pt</b> → Alojamento Local."]]}},
+   {id:"titularProprio",l:["O registo está em seu nome?","Is the registration in your name?"],type:"radio",req:1,opts:[SIM,NAO],showIf:["temRnal",["Sim"]]},
+   {id:"titularExploracao",l:["Em nome de quem está?","Whose name is it in?"],req:1,showIf:[["temRnal",["Sim"]],["titularProprio",["Não"]]]},
+   {id:"siba",l:["Já aderiu ao SIBA (comunicação de hóspedes estrangeiros)?","Already registered with SIBA (foreign guest reporting)?"],type:"radio",opts:[SIM,NAO,NAOSEI],showIf:["temRnal",["Sim"]]},
+   {id:"tmt",l:["Já está registado na taxa turística do concelho?","Already registered for the municipal tourist tax?"],type:"radio",opts:[SIM,NAO,NAOSEI],showIf:["temRnal",["Sim"]]}
+  ]}
+ ]},
+
+ {id:"seguro", t:["Seguro e segurança","Insurance and safety"], min:2, secs:[
+  {intro:["A lei exige um seguro de responsabilidade civil que cubra hóspedes e terceiros, com pelo menos 75.000 € por sinistro. Sem seguro válido o registo pode ser cancelado — por isso avisamo-lo antes de cada renovação.","The law requires liability insurance covering guests and third parties, of at least €75,000 per claim. Without valid insurance the registration can be cancelled — so we remind you before each renewal."],fields:[
+   {id:"temSeguro",l:["Tem seguro que cubra o Alojamento Local?","Do you have insurance covering the short-term rental?"],type:"radio",req:1,opts:[SIM,["Não — preciso de ajuda","No — I need help"],NAOSEI]},
+   {id:"seguradora",l:["Seguradora","Insurer"],req:1,showIf:["temSeguro",["Sim"]]},
+   {id:"apolice",l:["N.º da apólice","Policy number"],opt:1,showIf:["temSeguro",["Sim"]]},
+   {id:"seguroFim",l:["Data de fim ou renovação","End or renewal date"],type:"date",req:1,showIf:["temSeguro",["Sim"]]},
+   {id:"capital",l:["Capital de responsabilidade civil (€)","Liability cover (€)"],opt:1,im:"numeric",showIf:["temSeguro",["Sim"]],ph:["ex.: 75000","e.g. 75000"]},
+   {id:"seguroAuto",l:["Renova automaticamente?","Does it renew automatically?"],type:"radio",opts:[SIM,NAO,NAOSEI],showIf:["temSeguro",["Sim"]]},
+   {id:"n_apolice",type:"note",showIf:["temSeguro",["Sim"]],l:["Depois envie-nos a apólice por email — basta uma foto ou PDF.","Please email us the policy afterwards — a photo or PDF is fine."]},
+   {id:"n_semSeguro",type:"note",warn:1,showIf:["temSeguro",["Não — preciso de ajuda","Não sei"]],l:["Sem problema: indicamos-lhe opções. Uma apólice de casa normal muitas vezes não cobre o Alojamento Local.","No problem: we'll suggest options. A standard home policy often doesn't cover short-term rental."]}
+  ]},
+  {h:["Equipamento de segurança","Safety equipment"],fields:[
+   {id:"seguranca",l:["O que já existe na casa?","What does the house already have?"],type:"multi",opts:[["Extintor","Fire extinguisher"],["Manta ignífuga","Fire blanket"],["Kit de primeiros socorros","First-aid kit"],["Detetor de fumo","Smoke detector"],["Livro de reclamações","Complaints book"]],hint:["Se faltar alguma coisa, tratamos nós.","If anything is missing, we'll take care of it."]},
+   {id:"extintor",l:["Validade do extintor","Extinguisher expiry date"],type:"date",opt:1,showIf:["seguranca",["Extintor"]]}
+  ]}
+ ]},
+
+ {id:"casa", t:["A casa","The house"], min:3, secs:[
+  {fields:[
+   {id:"comodidades",l:["Assinale o que a casa tem","Tick what the house has"],type:"amen",opts:[["Ar condicionado","Air conditioning"],["Aquecimento","Heating"],["Piscina","Pool"],["Jacuzzi","Hot tub"],["Jardim","Garden"],["Varanda / terraço","Balcony / terrace"],["Churrasqueira","BBQ"],["Vista mar","Sea view"],["Estacionamento","Parking"],["Carregador elétrico","EV charger"],["Máq. lavar roupa","Washing machine"],["Máq. secar roupa","Dryer"],["Máq. lavar loiça","Dishwasher"],["Máquina de café","Coffee machine"],["Forno","Oven"],["Micro-ondas","Microwave"],["Smart TV","Smart TV"],["Lareira","Fireplace"],["Berço","Cot"],["Cadeira de bebé","High chair"],["Elevador","Lift"],["Secador de cabelo","Hair dryer"],["Ferro de engomar","Iron"],["Acesso sem degraus","Step-free access"]]},
+   {id:"piscinaTipo",l:["Piscina","Pool"],type:"radio",sm:1,opts:[["Privada","Private"],["Partilhada","Shared"],["Privada e aquecida","Private and heated"]],showIf:["comodidades",["Piscina"]]},
+   {id:"acTodos",l:["Ar condicionado","Air conditioning"],type:"radio",sm:1,opts:[["Em todos os quartos","In every bedroom"],["Só em algumas divisões","Only in some rooms"]],showIf:["comodidades",["Ar condicionado"]]},
+   {id:"estacionamentoTipo",l:["Estacionamento","Parking"],type:"radio",sm:1,opts:[["Privado","Private"],["Garagem","Garage"],["Na rua, gratuito","Free on the street"]],showIf:["comodidades",["Estacionamento"]]},
+   {id:"distancias",l:["Distância à praia e ao centro","Distance to the beach and town"],opt:1,ph:["ex.: praia a 15 min a pé, centro a 5 min de carro","e.g. beach 15 min walk, town 5 min drive"]},
+   {id:"destaques",l:["O que torna a casa especial?","What makes the house special?"],type:"textarea",rows:2,opt:1,ph:["vista, sossego, história da casa…","view, peace and quiet, the house's story…"]},
+   {id:"fotos",l:["Tem fotografias profissionais?","Do you have professional photos?"],type:"radio",opts:[SIM,["Não — tratamos nós","No — we'll arrange them"]]}
+  ]},
+  {h:["Regras","House rules"],fields:[
+   {id:"animais",l:["Aceita animais?","Pets allowed?"],type:"radio",sm:1,req:1,opts:[SIM,["Só pequenos (até 10 kg)","Small only (up to 10 kg)"],NAO]},
+   {id:"fumar",l:["Fumar","Smoking"],type:"radio",sm:1,def:"Só no exterior",opts:[["Proibido","Not allowed"],["Só no exterior","Outdoors only"]]},
+   {id:"festas",l:["Festas e eventos","Parties and events"],type:"radio",sm:1,def:"Não",opts:[["Não","Not allowed"],["Com autorização prévia","With prior approval"]]}
+  ]},
+  {h:["Acesso e funcionamento","Access and running the house"],fields:[
+   {id:"entrada",l:["Como vão entrar os hóspedes?","How will guests get in?"],type:"radio",req:1,opts:[["Fechadura inteligente","Smart lock"],["Cofre de chaves","Key box"],["Entrega em mão","Handed over in person"],["Ainda não sei — sugiram-me","Not sure yet — please advise"]]},
+   {id:"chaves",l:["Quantos jogos de chaves existem?","How many sets of keys are there?"],opt:1,im:"numeric"},
+   {id:"wifiOperadora",l:["Operador de internet","Internet provider"],opt:1,ph:["ex.: MEO, NOS, Vodafone","e.g. MEO, NOS, Vodafone"]},
+   {id:"wifiRede",l:["Nome da rede Wi-Fi","Wi-Fi network name"],opt:1},
+   {id:"wifiPass",l:["Password do Wi-Fi","Wi-Fi password"],opt:1,hint:["É a que os hóspedes vão usar.","The one guests will use."]},
+   {id:"limpeza",l:["Já tem quem faça a limpeza?","Do you already have someone for cleaning?"],type:"radio",req:1,opts:[SIM,["Não — usem a vossa equipa","No — use your team"]]},
+   {id:"limpezaContacto",l:["Nome e telefone","Name and phone"],opt:1,showIf:["limpeza",["Sim"]]},
+   {id:"tecnicos",l:["Técnicos de confiança","Trusted tradespeople"],type:"textarea",rows:2,opt:1,ph:["canalizador, eletricista, piscina… nome e telefone","plumber, electrician, pool… name and phone"],hint:["Se não tiver, usamos a nossa rede.","If you don't have any, we'll use our network."]}
+  ]}
+ ]},
+
+ {id:"pref", t:["Preferências","Preferences"], min:2, secs:[
+  {fields:[
+   {id:"usoProprio",l:["Datas em que quer usar a casa","Dates you'd like to use the house"],type:"textarea",rows:2,opt:1,ph:["ex.: 1–15 de agosto; Natal","e.g. 1–15 August; Christmas"]},
+   {id:"precoMin",l:["Preço mínimo por noite que aceita (€)","Lowest nightly price you'd accept (€)"],opt:1,im:"numeric",hint:["Ajuda-nos a definir os preços. Se não souber, deixe em branco.","Helps us set prices. Leave blank if unsure."]},
+   {id:"estadiaLonga",l:["Aceita estadias de vários meses ou de empresas?","Would you accept stays of several months or company bookings?"],type:"radio",opts:[SIM,NAO,["Talvez — falar comigo","Maybe — let's talk"]]}
+  ]},
+  {h:["Plataformas","Booking platforms"],fields:[
+   {id:"airbnb",l:["Já tem anúncio no Airbnb?","Already listed on Airbnb?"],type:"radio",req:1,opts:[SIM,["Não — criamos consigo","No — we'll set it up with you"]]},
+   {id:"airbnbLink",l:["Link do anúncio","Listing link"],opt:1,showIf:["airbnb",["Sim"]]},
+   {id:"airbnbEmail",l:["Email da conta Airbnb","Airbnb account email"],type:"email",opt:1,showIf:["airbnb",["Sim"]],hint:["Para lhe enviarmos o convite de co-anfitrião.","So we can send you the co-host invitation."]},
+   {id:"booking",l:["Já tem anúncio no Booking.com?","Already listed on Booking.com?"],type:"radio",req:1,opts:[SIM,["Não — criamos consigo","No — we'll set it up with you"]]},
+   {id:"bookingId",l:["ID da propriedade no Booking","Booking.com property ID"],opt:1,showIf:["booking",["Sim"]]},
+   {id:"outrasOtas",l:["Outras plataformas","Other platforms"],opt:1,ph:["ex.: Vrbo, site próprio","e.g. Vrbo, own website"]},
+   {id:"observacoes",l:["Mais alguma coisa que devamos saber?","Anything else we should know?"],type:"textarea",rows:3,opt:1}
+  ]}
+ ]}
+];
+
+// ======================= MOTOR =======================
+var REG=[]; // {el, prop, val}
+function reg(el,prop,val){REG.push({el:el,prop:prop,val:val});el[prop]=t(val);return el;}
 function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+var FIELDS={}; // id -> def
+var stepsEl=document.getElementById('steps');
+var current=0, TOTAL=STEPS.length+1; // + revisão
+
+function optVal(o){return pt(o);}
+function buildField(f,card){
+  FIELDS[f.id]=f;
+  var wrap=el('div',f.showIf?'cond':'');wrap.id='w_'+f.id;
+  if(f.showIf){var c=Array.isArray(f.showIf[0])?f.showIf:[f.showIf];wrap.dataset.conds=JSON.stringify(c);}
+  if(f.type==='note'){
+    var n=el('div','note'+(f.warn?' warn':''));n.id='note_'+f.id;
+    if(!f.dyn)reg(n,'innerHTML',f.l);
+    wrap.appendChild(n);card.appendChild(wrap);return;
+  }
+  var labTxt=el('span');reg(labTxt,'innerHTML',f.l);
+  var isChoice=(f.type==='radio'||f.type==='multi'||f.type==='amen');
+  var lab=el(isChoice||f.type==='counters'?'div':'label',isChoice||f.type==='counters'?'flabel':'f');
+  if(!isChoice&&f.type!=='counters')lab.htmlFor=f.id;
+  lab.id='lab_'+f.id;
+  lab.appendChild(labTxt);
+  if(f.req)lab.appendChild(el('span','req',' *'));
+  if(f.opt){lab.appendChild(document.createTextNode(' '));var o=el('span','opt');reg(o,'textContent',UI.optional);var wr=document.createTextNode('(');lab.appendChild(el('span','opt','('));lab.appendChild(o);lab.appendChild(el('span','opt',')'));}
+  wrap.appendChild(lab);
+  if(isChoice){
+    var box=el('div',f.type==='amen'?'amen':'choices');box.id='box_'+f.id;
+    box.setAttribute('role',f.type==='radio'?'radiogroup':'group');box.setAttribute('aria-labelledby','lab_'+f.id);
+    f.opts.forEach(function(op){
+      var chip=el('label','chip'+(f.sm?' sm':''));
+      var inp=document.createElement('input');
+      inp.type=f.type==='radio'?'radio':'checkbox';inp.name=f.id;inp.value=optVal(op);
+      if(f.def&&inp.value===f.def)inp.checked=true;
+      chip.appendChild(inp);chip.appendChild(reg(el('span'),'textContent',op));
+      box.appendChild(chip);
+    });
+    wrap.appendChild(box);
+  } else if(f.type==='counters'){
+    var cb=el('div','counters');cb.id='box_'+f.id;
+    f.opts.forEach(function(op,i){
+      var row=el('div','counter');
+      row.appendChild(reg(el('span'),'textContent',op));
+      var ctl=el('div','ctl');
+      var minus=el('button',null,'−');minus.type='button';minus.setAttribute('aria-label','−');
+      var out=el('output','', '0');
+      var hid=document.createElement('input');hid.type='hidden';hid.id=f.id+'_'+i;hid.value='0';hid.dataset.counter=f.id;
+      var plus=el('button',null,'+');plus.type='button';plus.setAttribute('aria-label','+');
+      function upd(d){var v=Math.max(0,Math.min(20,(parseInt(hid.value,10)||0)+d));hid.value=String(v);out.textContent=v;cb.classList.remove('invalid');onAnyChange();}
+      minus.addEventListener('click',function(){upd(-1);});plus.addEventListener('click',function(){upd(1);});
+      hid._sync=function(){out.textContent=hid.value;};
+      ctl.appendChild(minus);ctl.appendChild(out);ctl.appendChild(plus);ctl.appendChild(hid);
+      row.appendChild(ctl);cb.appendChild(row);
+    });
+    wrap.appendChild(cb);
+  } else {
+    var inp=document.createElement(f.type==='textarea'?'textarea':'input');
+    if(f.type==='textarea')inp.rows=f.rows||3;else inp.type=f.type||'text';
+    if(f.im)inp.inputMode=f.im;
+    if(f.ac)inp.autocomplete=f.ac;
+    inp.id=f.id;inp.name=f.id;
+    if(f.ph)reg(inp,'placeholder',f.ph);
+    if(f.dl)inp.setAttribute('list',f.dl);
+    if(f.sugg){var sw=el('div','suggwrap');sw.appendChild(inp);var sg=el('div','sugg');sg.id='sugg_'+f.id;sg.style.display='none';sw.appendChild(sg);wrap.appendChild(sw);inp.autocomplete='off';}
+    else wrap.appendChild(inp);
+    if(f.check){var w=el('div','fieldwarn');w.id='warn_'+f.id;w.style.display='none';wrap.appendChild(w);}
+    if(f.auto){var a=el('div','autofill');a.id='auto_'+f.id;reg(a,'textContent',UI.auto);wrap.appendChild(a);}
+  }
+  if(f.hint||f.hintIf){var h=el('div','hint');h.id='hint_'+f.id;if(f.hint)reg(h,'innerHTML',f.hint);wrap.appendChild(h);}
+  if(f.help){
+    var d=el('details','help');d.appendChild(reg(el('summary'),'innerHTML',f.help.t));
+    var b=el('div','body');var list=el('ul');
+    f.help.items.forEach(function(it){list.appendChild(reg(el('li'),'innerHTML',it));});
+    b.appendChild(list);d.appendChild(b);wrap.appendChild(d);
+  }
+  card.appendChild(wrap);
+}
+
+// Passo de introdução
+function buildIntro(card){
+  card.appendChild(reg(el('h2'),'textContent',["Bem-vindo à Easy Host Algarve","Welcome to Easy Host Algarve"]));
+  card.appendChild(reg(el('p','sub'),'textContent',["Esta ficha reúne de uma vez tudo o que precisamos para registar, configurar e publicar o seu alojamento. Assim não o voltamos a incomodar com pedidos soltos.","This form collects, in one go, everything we need to register, set up and publish your property — so we won't need to keep coming back to you."]));
+  card.appendChild(reg(el('div','flabel'),'textContent',["Tenha à mão:","Have these at hand:"]));
+  var ul=el('ul','need');
+  [["🪪",["<b>Cartão de Cidadão</b> ou passaporte","<b>ID card</b> or passport"]],
+   ["🏦",["<b>IBAN</b> da conta onde vai receber","<b>IBAN</b> of the account you'll be paid into"]],
+   ["🏠",["<b>Caderneta predial</b> e licença de utilização, se tiver","<b>Property tax record</b> and occupancy permit, if you have them"]],
+   ["🛡️",["<b>Apólice do seguro</b> da casa","Your home <b>insurance policy</b>"]]
+  ].forEach(function(x){var li=el('li');li.appendChild(el('span','ic',x[0]));li.appendChild(reg(el('span'),'innerHTML',x[1]));ul.appendChild(li);});
+  card.appendChild(ul);
+  var facts=el('div','facts');
+  [["⏱ cerca de 15 minutos","⏱ about 15 minutes"],["💾 guarda sozinha — pode parar e voltar","💾 saves as you go — stop and come back anytime"],["🔒 nunca pedimos passwords","🔒 we never ask for passwords"]].forEach(function(x){facts.appendChild(reg(el('span'),'textContent',x));});
+  card.appendChild(facts);
+  card.appendChild(reg(el('p','hint'),'textContent',["Não sabe alguma resposta? Escolha “Não sei” ou deixe em branco — tratamos disso consigo.","Don't know an answer? Choose “Not sure” or leave it blank — we'll sort it out with you."]));
+}
 
 STEPS.forEach(function(st){
-  var card=el('section','card step');
-  st.secs.forEach(function(sec,si){
-    card.appendChild(reg(el(si===0?'h2':'h3'),'innerHTML',sec.h));
+  var card=el('section','card step');card.id='step_'+st.id;
+  if(st.intro){buildIntro(card);stepsEl.appendChild(card);return;}
+  card.appendChild(reg(el('h2'),'textContent',st.t));
+  st.secs.forEach(function(sec){
+    if(sec.h)card.appendChild(reg(el('h3'),'textContent',sec.h));
     if(sec.intro)card.appendChild(reg(el('p','sub'),'innerHTML',sec.intro));
-    if(sec.decl)card.appendChild(reg(el('div','declbox'),'innerHTML',DECL_PT));
-    sec.fields.forEach(function(f){
-      var wrap=el('div',f.showIf?'cond':'');
-      if(f.showIf){var conds=Array.isArray(f.showIf[0])?f.showIf:[f.showIf];wrap.dataset.conds=JSON.stringify(conds);}
-      if(f.type==='radio'||f.type==='multi'||f.type==='amen'){
-        var rlab=reg(el('label','f'),'innerHTML',f.l);
-        if(f.req)rlab.appendChild(el('span','req',' *'));
-        wrap.appendChild(rlab);
-        var box=el('div',f.type==='amen'?'amen':'choices');
-        f.opts.forEach(function(o){
-          var chip=el('label','chip'+(f.sm?' sm':''));
-          var inp=document.createElement('input');
-          inp.type=(f.type==='radio')?'radio':'checkbox';
-          inp.name=f.id;inp.value=o;
-          chip.appendChild(inp);
-          chip.appendChild(reg(el('span'),'textContent',o));
-          if(f.def&&o===f.def)inp.checked=true;
-          box.appendChild(chip);
-        });
-        wrap.appendChild(box);
-      } else if(f.type==='declcheck'){
-        var chip=el('label','chip');
-        var inp=document.createElement('input');inp.type='checkbox';inp.name='decl_ok';inp.value='sim';
-        chip.appendChild(inp);
-        chip.appendChild(reg(el('span'),'textContent'," Li e autorizo, nos termos acima"));
-        wrap.appendChild(chip);
-      } else {
-        var lab=el('label','f');lab.htmlFor=f.id;
-        var span=reg(el('span'),'innerHTML',f.l);lab.appendChild(span);
-        if(f.req)lab.appendChild(el('span','req',' *'));
-        if(f.opt){lab.appendChild(document.createTextNode(' '));lab.appendChild(reg(el('span','opt'),'textContent','(opcional)'));}
-        wrap.appendChild(lab);
-        var inp=document.createElement(f.type==='textarea'?'textarea':'input');
-        if(f.type!=='textarea')inp.type=f.type||'text';else inp.rows=3;
-        if(f.im)inp.inputMode=f.im;
-        inp.id=f.id;inp.name=f.id;
-        if(f.ph)reg(inp,'placeholder',f.ph);
-        if(f.dl)inp.setAttribute('list',f.dl);
-        if(f.sugg){var sw=el('div','suggwrap');sw.appendChild(inp);var sg=el('div','sugg');sg.id='sugg_'+f.id;sg.style.display='none';sw.appendChild(sg);wrap.appendChild(sw);}
-        else wrap.appendChild(inp);
-        if(f.hint)wrap.appendChild(reg(el('div','hint'),'innerHTML',f.hint));
-        if(f.auto){var a=el('div','autofill');a.id='auto_'+f.id;a.appendChild(reg(el('span'),'textContent','preenchido automaticamente'));wrap.appendChild(a);}
-      }
-      card.appendChild(wrap);
-    });
-    if(sec.help){
-      var d=el('details','help');
-      d.appendChild(reg(el('summary'),'innerHTML',sec.help.t));
-      var b=el('div','body');var list=el(sec.help.ol?'ol':'ul');
-      sec.help.items.forEach(function(it){list.appendChild(reg(el('li'),'innerHTML',it));});
-      b.appendChild(list);d.appendChild(b);card.appendChild(d);
-    }
+    sec.fields.forEach(function(f){buildField(f,card);});
   });
   stepsEl.appendChild(card);
 });
 
-// revisão
-var review=el('section','card step');
-review.innerHTML='<h2 data-tr="Rever e enviar">Rever e enviar</h2>'+
- '<p class="sub" data-tr="rev_sub">Confira o resumo — pode voltar atrás para corrigir. O resumo é gerado em português para os nossos registos.</p>'+
- '<div id="resumo" aria-live="polite"></div>'+
- '<button class="btn-primary" id="submitBtn" type="button" style="width:100%;margin-top:14px" data-tr="Submeter à Easy Host Algarve">Submeter à Easy Host Algarve</button>'+
- '<div class="fieldwarn" id="subErr" style="display:none;text-align:center;margin-top:8px" data-tr="sub_err">Não foi possível submeter automaticamente — use uma das opções abaixo (o resumo será copiado).</div>'+
- '<p class="sub" style="text-align:center;margin-top:16px;margin-bottom:0" data-tr="ou, em alternativa:">ou, em alternativa:</p>'+
- '<div class="send"><a class="mail" id="mailBtn" href="#" data-tr="📧 Enviar por email">📧 Enviar por email</a>'+
- '<a class="wa" id="waBtn" href="#" target="_blank" rel="noopener" data-tr="💬 Enviar por WhatsApp">💬 Enviar por WhatsApp</a>'+
- '<button class="btn-ghost" id="copyBtn" type="button" data-tr="Copiar resumo">Copiar resumo</button></div>'+
- '<div class="copied" id="copiedMsg" data-tr="✓ Resumo copiado — cole na mensagem para a Easy Host">✓ Resumo copiado — cole na mensagem para a Easy Host</div>'+
- '<div class="copied" id="mailMsg" data-tr="mail_ok">✓ Resumo copiado. A abrir a sua aplicação de email… se o corpo do email aparecer vazio, basta colar (Ctrl+V / manter premido → Colar).</div>'+
- '<p class="privacy" data-tr="privacy">Dados tratados de forma confidencial, ao abrigo do RGPD e do contrato de gestão. Este formulário não guarda nada em servidores — o resumo só é enviado por si. Envie também: cópia da licença AL, fotografias em alta resolução e manual da casa (se existir).</p>';
+// Revisão
+var review=el('section','card step');review.id='step_review';
+review.appendChild(reg(el('h2'),'textContent',UI.reviewT));
+review.appendChild(reg(el('p','sub'),'textContent',UI.reviewS));
+var reviewList=el('div');reviewList.id='reviewList';review.appendChild(reviewList);
+review.appendChild(reg(el('h3'),'textContent',UI.declTitle));
+var decl=el('div','declbox');reg(decl,'textContent',DECL);review.appendChild(decl);
+var dwrap=el('div','choices');dwrap.id='box_decl';dwrap.style.marginTop='10px';
+var dchip=el('label','chip');var dinp=document.createElement('input');dinp.type='checkbox';dinp.id='decl_ok';dinp.name='decl_ok';dinp.value='Sim';
+dchip.appendChild(dinp);dchip.appendChild(reg(el('span'),'textContent',UI.declOk));dwrap.appendChild(dchip);review.appendChild(dwrap);
+var sendBtn=el('button','btn-primary');sendBtn.id='sendBtn';sendBtn.type='button';sendBtn.style.width='100%';sendBtn.style.marginTop='16px';reg(sendBtn,'textContent',UI.send);review.appendChild(sendBtn);
+var fb=el('div','fallback');fb.id='fallback';
+fb.appendChild(reg(el('p','fieldwarn'),'textContent',UI.failT));
+fb.appendChild(reg(el('p','sub'),'textContent',UI.failP));
+var sendBox=el('div','send');
+var mailA=el('a','mail');mailA.id='mailBtn';mailA.href='#';reg(mailA,'textContent',UI.mail);
+var waA=el('a','wa');waA.id='waBtn';waA.href='#';waA.target='_blank';waA.rel='noopener';reg(waA,'textContent',UI.wa);
+sendBox.appendChild(mailA);sendBox.appendChild(waA);fb.appendChild(sendBox);review.appendChild(fb);
+review.appendChild(reg(el('p','privacy'),'textContent',UI.privacy));
 stepsEl.appendChild(review);
-review.querySelectorAll('[data-tr]').forEach(function(e){e.setAttribute('data-pt',e.innerHTML);});
 
 var stepEls=stepsEl.children;
-for(var i=0;i<TOTAL;i++){tiles.appendChild(el('div','tile',i<TOTAL-1?String(i+1):'✓'));}
 
-// condicionais (suporta múltiplas condições e campos de escolha múltipla)
-function condOk(pair){
-  var checked=document.querySelectorAll('input[name="'+pair[0]+'"]:checked');
-  for(var i=0;i<checked.length;i++){if(pair[1].indexOf(checked[i].value)>-1)return true;}
-  return false;
+// ---- valores ----
+function val(id){var e=document.getElementById(id);return e&&e.value?String(e.value).trim():'';}
+function rval(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:'';}
+function mvals(n){return Array.prototype.map.call(document.querySelectorAll('input[name="'+n+'"]:checked'),function(x){return x.value;});}
+function counters(id){var f=FIELDS[id];return f.opts.map(function(op,i){return {k:pt(op),n:parseInt(val(id+'_'+i),10)||0};});}
+function fieldValue(f){
+  if(f.type==='radio')return rval(f.id);
+  if(f.type==='multi'||f.type==='amen')return mvals(f.id).join(', ');
+  if(f.type==='counters')return counters(f.id).filter(function(c){return c.n>0;}).map(function(c){return c.n+' '+c.k;}).join(', ');
+  return val(f.id);
 }
-function refreshConds(){
-  document.querySelectorAll('.cond').forEach(function(c){
-    c.classList.toggle('show',JSON.parse(c.dataset.conds).every(condOk));
+function show(f,v){if(f.type==='date'&&/^\d{4}-\d{2}-\d{2}$/.test(v)){var a=v.split('-');return a[2]+'/'+a[1]+'/'+a[0];}return v;}
+function condOk(pair){var ch=document.querySelectorAll('input[name="'+pair[0]+'"]:checked');for(var i=0;i<ch.length;i++){if(pair[1].indexOf(ch[i].value)>-1)return true;}return false;}
+function isVisible(f){if(!f.showIf)return true;var c=Array.isArray(f.showIf[0])?f.showIf:[f.showIf];return c.every(condOk);}
+function refreshConds(){document.querySelectorAll('.cond').forEach(function(c){c.classList.toggle('show',JSON.parse(c.dataset.conds).every(condOk));});}
+
+// ---- dicas dinâmicas ----
+function refreshDynamic(){
+  Object.keys(FIELDS).forEach(function(id){
+    var f=FIELDS[id];if(!f.hintIf)return;var h=document.getElementById('hint_'+id);if(!h)return;
+    var txt=f.hint?t(f.hint):'';
+    Object.keys(f.hintIf).forEach(function(k){var m=f.hintIf[k][rval(k)];if(m)txt=t(m);});
+    h.innerHTML=txt;h.style.display=txt?'block':'none';
   });
+  var capNote=document.getElementById('note_n_cap');
+  if(capNote){
+    var tp=rval('tipologia');var q=tp==='T0'?0:parseInt((tp||'').replace(/\D/g,''),10);
+    var cap=parseInt(rval('capacidade'),10);var msg='';
+    if(tp&&!isNaN(q)){
+      var max=tp==='T0'?2:q*2+2;
+      msg=t(["Pela lei, um "+tp+" pode receber até "+max+" hóspedes (2 por quarto + 2 na sala).","By law, a "+(tp==='T0'?"studio":q+"-bedroom")+" can host up to "+max+" guests (2 per bedroom + 2 in the living room)."]);
+      if(cap&&cap>max)msg+=' '+t(["O número escolhido está acima — confirmamos consigo.","The number chosen is above that — we'll check with you."]);
+    }
+    if(cap>10)msg+=(msg?' ':'')+t(["Acima de 10 hóspedes aplicam-se regras de segurança contra incêndio mais exigentes.","Above 10 guests, stricter fire-safety rules apply."]);
+    capNote.textContent=msg;capNote.parentNode.style.display=msg?'block':'none';
+    capNote.className='note'+(cap>10||(tp&&cap>(tp==='T0'?2:q*2+2))?' warn':'');
+  }
 }
-document.addEventListener('change',function(e){if(e.target.name)refreshConds();});
 
-// ——— auto-preenchimento por código postal ———
-function markAuto(id){var a=document.getElementById('auto_'+id);if(a)a.style.display='block';}
-function fillLoc(mun,dist,freg){
-  var m=document.getElementById('municipio'),d=document.getElementById('distrito'),f=document.getElementById('freguesia');
-  if(m&&!m.value&&mun){m.value=mun;markAuto('municipio');}
-  if(d&&!d.value&&dist){d.value=dist;markAuto('distrito');}
-  if(f&&!f.value&&freg){f.value=freg;markAuto('freguesia');}
-  saveDraft();
-}
-(function(){
-  var mun=["Albufeira","Alcoutim","Aljezur","Castro Marim","Faro","Lagoa","Lagos","Loulé","Monchique","Olhão","Portimão","São Brás de Alportel","Silves","Tavira","Vila do Bispo","Vila Real de Santo António"];
-  var dist=["Aveiro","Beja","Braga","Bragança","Castelo Branco","Coimbra","Évora","Faro","Guarda","Leiria","Lisboa","Portalegre","Porto","Santarém","Setúbal","Viana do Castelo","Vila Real","Viseu"];
-  function mk(id,arr){var d=document.createElement('datalist');d.id=id;arr.forEach(function(v){var o=document.createElement('option');o.value=v;d.appendChild(o);});document.body.appendChild(d);}
-  mk('dl_mun',mun);mk('dl_dist',dist);
-})();
-function cpLookup(){
-  var cp=(document.getElementById('cp').value||'').replace(/\s/g,'');
-  var m4=cp.match(/^(\d{4})/);if(!m4)return;
-  var hit=CP_MAP[m4[1]];
-  if(hit){fillLoc(hit[0],hit[1]);return;}
-  var full=cp.match(/^(\d{4})-?(\d{3})$/);
-  if(!full)return;
-  fetch('https://json.geoapi.pt/cp/'+full[1]+'-'+full[2])
-    .then(function(r){return r.ok?r.json():null;})
-    .then(function(j){
-      if(!j)return;
-      var mun=j.Concelho||j.concelho||(j.Localidade&&j.Localidade[0])||'';
-      var dist=j.Distrito||j.distrito||'';
-      var freg=j.Freguesia||j.freguesia||'';
-      fillLoc(mun,dist,freg);
-    }).catch(function(){});
-}
-document.addEventListener('input',function(e){
-  if(e.target.id!=='cp')return;
-  var v=e.target.value.replace(/\s/g,'');
-  if(/^\d{4}(-?\d{3})?$/.test(v))cpLookup();
-});
-document.addEventListener('blur',function(e){if(e.target&&e.target.id==='cp')cpLookup();},true);
-
-// ——— navegação ———
-function stepTitle(i){var t=i<STEPS.length?STEPS[i].t:'Rever e enviar';return L(t);}
-function renderLabel(){tilesLabel.textContent=L('Passo')+' '+(current+1)+' '+L('de')+' '+TOTAL+' — '+stepTitle(current);}
-function render(){
-  for(var i=0;i<TOTAL;i++){stepEls[i].style.display=(i===current)?'block':'none';}
-  Array.prototype.forEach.call(tiles.children,function(t,i){
-    t.classList.toggle('done',i<current);t.classList.toggle('now',i===current);
-  });
-  renderLabel();
-  backBtn.style.visibility=current===0?'hidden':'visible';
-  nextBtn.style.display=current===TOTAL-1?'none':'block';
-  if(current===TOTAL-1)buildResumo();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function validateStep(i){
-  if(i>=STEPS.length)return true;
-  var ok=true;
-  STEPS[i].secs.forEach(function(sec){sec.fields.forEach(function(f){
-    if(!f.req||!isVisible(f))return;
-    var e=document.getElementById(f.id);
-    var empty=e?!e.value.trim():true;
-    if(f.type==='radio')empty=!rval(f.id);
-    if(e)e.classList.toggle('invalid',empty);
-    if(empty)ok=false;
-  });});
-  document.getElementById('navMsg').style.display=ok?'none':'block';
+// ---- validação ----
+var CHECKS={
+  nif:function(v){return /^\d{9}$/.test(v.replace(/\s/g,''));},
+  email:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);},
+  iban:function(v){return /^[A-Za-z]{2}\d{2}[A-Za-z0-9]{10,30}$/.test(v.replace(/\s/g,''));}
+};
+function checkField(f,show){
+  if(!f.check)return true;var v=val(f.id);if(!v)return true;
+  var ok=CHECKS[f.check](v);var w=document.getElementById('warn_'+f.id);
+  if(w&&show){w.textContent=t(UI[f.check]);w.style.display=ok?'none':'block';}
   return ok;
 }
-nextBtn.addEventListener('click',function(){
-  if(!validateStep(current))return;
-  if(current<TOTAL-1){current++;render();}
-});
-function inlineWarn(id,test,msgPt){
-  var e=document.getElementById(id);if(!e)return;
-  var w=el('div','fieldwarn');w.style.display='none';reg(w,'textContent',msgPt);
-  e.parentNode.insertBefore(w,e.nextSibling);
-  e.addEventListener('blur',function(){
-    w.style.display=(e.value&&!test(e.value.trim()))?'block':'none';
+function validateStep(i){
+  var st=STEPS[i];if(!st||st.intro)return true;
+  var ok=true,first=null;
+  st.secs.forEach(function(sec){sec.fields.forEach(function(f){
+    if(f.type==='note'||!isVisible(f))return;
+    var target=document.getElementById(f.type&&f.type!=='textarea'&&['radio','multi','amen','counters'].indexOf(f.type)>-1?'box_'+f.id:f.id);
+    var empty=f.req&&!fieldValue(f);
+    var bad=!checkField(f,true);
+    if(target)target.classList.toggle('invalid',!!(empty||bad));
+    if(empty||bad){ok=false;if(!first)first=target;}
+  });});
+  var m=document.getElementById('navMsg');m.textContent=t(UI.required);m.style.display=ok?'none':'block';
+  if(first&&first.scrollIntoView)first.scrollIntoView({behavior:'smooth',block:'center'});
+  return ok;
+}
+document.addEventListener('blur',function(e){var f=e.target&&FIELDS[e.target.id];if(f)checkField(f,true);},true);
+
+// ---- navegação ----
+var backBtn=document.getElementById('backBtn'),nextBtn=document.getElementById('nextBtn');
+function minsLeft(){var s=0;for(var i=current;i<STEPS.length;i++)s+=STEPS[i].min||0;return s;}
+function render(){
+  for(var i=0;i<stepEls.length;i++)stepEls[i].style.display=(i===current)?'block':'none';
+  var pw=document.getElementById('progressWrap');pw.style.display=current===0?'none':'block';
+  var n=STEPS.length-1; // passos numerados (sem intro)
+  var idx=Math.min(current,n+1);
+  document.getElementById('progressBar').style.width=Math.round((idx-1)/(n)*100)+'%';
+  var name=current<STEPS.length?t(STEPS[current].t):t(UI.reviewT);
+  document.getElementById('plabelStep').textContent=current<=n?(t(UI.step)+' '+current+' '+t(UI.of)+' '+n+' · '+name):name;
+  var ml=minsLeft();document.getElementById('plabelTime').textContent=(current>0&&current<=n&&ml)?('≈ '+ml+' '+t(UI.left)):'';
+  backBtn.style.visibility=current===0?'hidden':'visible';
+  document.getElementById('navBar').style.display=current===TOTAL-1?'none':'flex';
+  nextBtn.textContent=current===0?t(UI.start)+' →':t(UI.next)+' →';
+  backBtn.textContent='← '+t(UI.back);
+  document.getElementById('navMsg').style.display='none';
+  if(current===TOTAL-1)buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+nextBtn.addEventListener('click',function(){if(!validateStep(current))return;if(current<TOTAL-1){current++;saveDraft();render();}});
+backBtn.addEventListener('click',function(){if(current>0){current--;render();}});
+function goTo(i){current=i;render();}
+
+// ---- revisão ----
+function buildReview(){
+  reviewList.innerHTML='';
+  STEPS.forEach(function(st,si){
+    if(st.intro)return;
+    var box=el('div','review-sec');var rh=el('div','rh');rh.appendChild(el('span',null,''));rh.firstChild.textContent=t(st.t);
+    var eb=el('button');eb.type='button';eb.textContent=t(UI.edit);eb.addEventListener('click',function(){goTo(si);});rh.appendChild(eb);box.appendChild(rh);
+    var dl=el('dl');
+    st.secs.forEach(function(sec){sec.fields.forEach(function(f){
+      if(f.type==='note'||!isVisible(f))return;var v=fieldValue(f);if(!v)return;
+      var shown=show(f,v);
+      if(f.opts&&lang==='en'){var map={};f.opts.forEach(function(o){map[pt(o)]=t(o);});shown=v.split(', ').map(function(x){
+        var m=x.match(/^(\d+) (.*)$/);if(f.type==='counters'&&m)return m[1]+' '+(map[m[2]]||m[2]);return map[x]||x;}).join(', ');}
+      var dt=el('dt');dt.innerHTML=t(f.l);var dd=el('dd');dd.textContent=shown;dl.appendChild(dt);dl.appendChild(dd);
+    });});
+    box.appendChild(dl);reviewList.appendChild(box);
   });
 }
-inlineWarn('nif',function(v){return /^\d{9}$/.test(v.replace(/\s/g,''));},'O NIF deve ter 9 dígitos');
-inlineWarn('email',function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);},'Email inválido');
-backBtn.addEventListener('click',function(){if(current>0){current--;render();}});
-
-// ——— idioma ———
-function setLang(l){
-  lang=l;
-  document.getElementById('langPt').classList.toggle('on',l==='pt');
-  document.getElementById('langEn').classList.toggle('on',l==='en');
-  document.documentElement.lang=l;
-  REG.forEach(function(r){r.el[r.prop]=L(r.pt);});
-  applyLangFixed();
-  renderLabel();
-  if(current===TOTAL-1)buildResumo();
-}
-document.getElementById('langPt').addEventListener('click',function(){setLang('pt');});
-document.getElementById('langEn').addEventListener('click',function(){setLang('en');});
-
-// ——— resumo (sempre em PT, para os registos da Easy Host) ———
-function val(id){var e=document.getElementById(id);return e&&e.value?e.value.trim():'';}
-function rval(name){var e=document.querySelector('input[name="'+name+'"]:checked');return e?e.value:'';}
-function mvals(name){return Array.prototype.map.call(document.querySelectorAll('input[name="'+name+'"]:checked'),function(x){return x.value;}).join(', ');}
-function isVisible(f){
-  if(!f.showIf)return true;
-  var conds=Array.isArray(f.showIf[0])?f.showIf:[f.showIf];
-  return conds.every(condOk);
-}
-function buildResumo(){
-  var txt='ONBOARDING DO PROPRIETÁRIO — EASY HOST ALGARVE\n================================================\n';
-  STEPS.forEach(function(st){st.secs.forEach(function(sec){
-    txt+='\n'+sec.h.toUpperCase()+'\n';
-    sec.fields.forEach(function(f){
-      if(f.type==='declcheck'){
-        txt+=(rval('decl_ok')?'✓ AUTORIZAÇÃO CONCEDIDA':'✗ Autorização NÃO assinalada')+' — '+new Date().toLocaleDateString('pt-PT')+'\n';return;
-      }
-      if(!isVisible(f))return;
-      var v=(f.type==='radio')?rval(f.id):(f.type==='multi'||f.type==='amen')?mvals(f.id):val(f.id);
-      txt+=f.l+': '+(v||'—')+'\n';
-    });
-  });});
-  document.getElementById('resumo').textContent=txt;
-  var subject=encodeURIComponent('Onboarding — '+(val('aloj_nome')||val('nome')||'novo proprietário'));
-  document.getElementById('mailBtn').href='mailto:'+DEST_EMAIL+'?subject='+subject+'&body='+encodeURIComponent(txt);
-  document.getElementById('waBtn').href='https://wa.me/?text='+encodeURIComponent(txt);
+function resumoTexto(){
+  var txt='FICHA DO PROPRIETÁRIO — EASY HOST ALGARVE\nEnviada em '+new Date().toLocaleString('pt-PT')+' (idioma do formulário: '+lang.toUpperCase()+')\n';
+  STEPS.forEach(function(st){if(st.intro)return;txt+='\n== '+pt(st.t).toUpperCase()+' ==\n';
+    st.secs.forEach(function(sec){sec.fields.forEach(function(f){if(f.type==='note'||!isVisible(f))return;var v=fieldValue(f);if(v)txt+=pt(f.l).replace(/<[^>]+>/g,'')+': '+show(f,v)+'\n';});});});
+  txt+='\nAutorização: '+(document.getElementById('decl_ok').checked?'SIM — '+new Date().toLocaleDateString('pt-PT'):'NÃO');
   return txt;
 }
-function copyText(txt,done){
-  function fallback(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(err){done();}document.body.removeChild(ta);}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(fallback);}else{fallback();}
+function payload(){
+  var campos={},labels={};
+  STEPS.forEach(function(st){if(st.intro)return;st.secs.forEach(function(sec){sec.fields.forEach(function(f){
+    if(f.type==='note')return;var v=isVisible(f)?fieldValue(f):'';campos[f.id]=v;labels[f.id]=pt(f.l).replace(/<[^>]+>/g,'');
+    if(f.type==='counters'){counters(f.id).forEach(function(c){campos[f.id+'_'+c.k]=c.n;});}
+  });});});
+  campos.decl_ok=document.getElementById('decl_ok').checked?'Sim':'';labels.decl_ok='Autorização';
+  return {origem:'onboarding.easyhostalgarve.pt',lang:lang,enviadoEm:new Date().toISOString(),website:val('website'),campos:campos,labels:labels,resumo:resumoTexto()};
 }
-document.addEventListener('click',function(e){
-  if(e.target.id==='submitBtn'){
-    var btn=e.target;
-    var txt=buildResumo();
-    btn.disabled=true;btn.textContent=L('A enviar…');
-    document.getElementById('subErr').style.display='none';
-    var req;
-    if(W3F_KEY&&W3F_KEY.length>20){
-      req=fetch('https://api.web3forms.com/submit',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify({
-          access_key:W3F_KEY,
-          subject:'Onboarding — '+(val('aloj_nome')||val('nome')||'novo proprietário'),
-          from_name:'Formulário Onboarding Easy Host',
-          nome:val('nome'),alojamento:val('aloj_nome'),
-          email:val('email'),telefone:val('tel'),
-          idioma:lang,resumo:txt
-        })
-      }).then(function(r){return r.json();}).then(function(j){if(!j.success)throw new Error('w3f');});
-    } else {
-      var payload=new URLSearchParams({
-        'form-name':'onboarding','bot-field':'',
-        'nome':val('nome'),'alojamento':val('aloj_nome'),
-        'email':val('email'),'telefone':val('tel'),
-        'idioma':lang,'resumo':txt
-      }).toString();
-      req=fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:payload})
-        .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);});
-    }
-    req
-      .then(function(){
-        store.del(DRAFT_KEY);
-        review.innerHTML='<div style="text-align:center;padding:30px 10px">'+
-          '<div style="font-size:52px;color:var(--ok)">✓</div>'+
-          '<h2 style="margin:10px 0 8px">'+L('sub_ok_t')+'</h2>'+
-          '<p class="sub" style="margin:0">'+L('sub_ok_p')+'</p></div>';
-        window.scrollTo({top:0,behavior:'smooth'});
-      })
-      .catch(function(){
-        document.getElementById('subErr').style.display='block';
-        btn.disabled=false;btn.textContent=L('Submeter à Easy Host Algarve');
-      });
-    return;
-  }
-  if(e.target.id==='copyBtn'){
-    copyText(buildResumo(),function(){document.getElementById('copiedMsg').style.display='block';});
-    return;
-  }
-  var mail=e.target.closest?e.target.closest('#mailBtn'):null;
-  if(mail){
-    e.preventDefault();
-    var txt=buildResumo();
-    var subject=encodeURIComponent('Onboarding — '+(val('aloj_nome')||val('nome')||'novo proprietário'));
-    // mailto tem limite prático de ~2000 caracteres: corpo completo só se couber
-    var body=txt;
-    if(encodeURIComponent(txt).length>1800){
-      body=txt.split('\n').slice(0,12).join('\n')+'\n\n'+L('[O resumo completo foi copiado — cole-o aqui]');
-    }
-    copyText(txt,function(){
-      document.getElementById('mailMsg').style.display='block';
-      setTimeout(function(){window.location.href='mailto:'+DEST_EMAIL+'?subject='+subject+'&body='+encodeURIComponent(body);},250);
-    });
-  }
+
+// ---- envio ----
+function copyText(txt,done){
+  function fb(){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done&&done();}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){done&&done();}).catch(fb);else fb();
+}
+function sendSheet(p){
+  if(!SHEET_ENDPOINT)return Promise.reject(new Error('no-endpoint'));
+  return fetch(SHEET_ENDPOINT,{method:'POST',body:JSON.stringify(p)})
+    .then(function(r){return r.json();}).then(function(j){if(!j||!j.ok)throw new Error((j&&j.error)||'sheet');return j;});
+}
+function sendEmail(p){
+  if(!W3F_KEY)return Promise.reject(new Error('no-key'));
+  return fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({access_key:W3F_KEY,subject:'Ficha de onboarding — '+(p.campos.nomeAloj||p.campos.moradaAloj||p.campos.nome||'novo proprietário'),
+      from_name:'Ficha de onboarding Easy Host',nome:p.campos.nome,email:p.campos.email,telefone:p.campos.telemovel,resumo:p.resumo,botcheck:p.website})})
+    .then(function(r){return r.json();}).then(function(j){if(!j.success)throw new Error('w3f');});
+}
+sendBtn.addEventListener('click',function(){
+  var dok=document.getElementById('decl_ok');
+  if(!dok.checked){dwrap.classList.add('invalid');dwrap.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  dwrap.classList.remove('invalid');
+  for(var i=1;i<STEPS.length;i++){if(!validateStep(i)){goTo(i);validateStep(i);return;}}
+  var p=payload();
+  sendBtn.disabled=true;sendBtn.textContent=t(UI.sending);
+  sendSheet(p).catch(function(){return sendEmail(p);})
+   .then(function(){
+     SUBMITTED=true;clearTimeout(_st);store.del(DRAFT_KEY);document.getElementById('savedNote').style.display='none';
+     review.innerHTML='<div style="text-align:center;padding:26px 6px"><div style="font-size:52px;color:var(--ok)">✓</div>'+
+       '<h2 style="margin:8px 0 8px">'+t(UI.okT)+'</h2><p class="sub">'+t(UI.okP)+'</p>'+
+       '<div class="note" style="text-align:left;margin-top:16px">'+t(UI.okDocs)+' <b>'+DEST_EMAIL+'</b>: '+
+       t(["Cartão de Cidadão (frente e verso), caderneta predial, licença de utilização e apólice do seguro.","ID (both sides), property tax record, occupancy permit and insurance policy."])+'</div></div>';
+     window.scrollTo({top:0,behavior:'smooth'});
+   })
+   .catch(function(){
+     sendBtn.disabled=false;sendBtn.textContent=t(UI.send);
+     var txt=p.resumo;copyText(txt);
+     var subj=encodeURIComponent('Ficha de onboarding — '+(p.campos.nome||''));
+     var body=encodeURIComponent(txt).length>1800?encodeURIComponent(txt.split('\n').slice(0,10).join('\n')+'\n\n[O resumo completo foi copiado — cole aqui]'):encodeURIComponent(txt);
+     mailA.href='mailto:'+DEST_EMAIL+'?subject='+subj+'&body='+body;
+     waA.href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(txt);
+     fb.style.display='block';fb.scrollIntoView({behavior:'smooth',block:'center'});
+   });
 });
 
-var _mem={};
-var store={
-  set:function(k,v){try{localStorage.setItem(k,v);}catch(e){_mem[k]=v;}},
-  get:function(k){try{return localStorage.getItem(k);}catch(e){return _mem[k]||null;}},
-  del:function(k){try{localStorage.removeItem(k);}catch(e){delete _mem[k];}}
-};
-var DRAFT_KEY='eh_onboarding_draft_v1';
-var _saveT=null;
-function saveDraft(){
-  clearTimeout(_saveT);
-  _saveT=setTimeout(function(){
-    var d={step:current,vals:{},checks:[]};
-    document.querySelectorAll('input,textarea').forEach(function(e){
-      if(e.type==='radio'||e.type==='checkbox'){if(e.checked)d.checks.push(e.name+'||'+e.value);}
-      else if(e.id&&e.value)d.vals[e.id]=e.value;
-    });
-    store.set(DRAFT_KEY,JSON.stringify(d));
-  },400);
+// ---- idioma ----
+function setLang(l){
+  lang=l;document.documentElement.lang=l;
+  document.getElementById('langPt').classList.toggle('on',l==='pt');document.getElementById('langEn').classList.toggle('on',l==='en');
+  REG.forEach(function(r){r.el[r.prop]=t(r.val);});
+  document.getElementById('hdrTitle').textContent=t(UI.title);document.getElementById('hdrSub').textContent=t(UI.sub);
+  document.getElementById('savedNote').textContent=t(UI.saved);
+  Object.keys(FIELDS).forEach(function(id){var f=FIELDS[id];if(f.check){var w=document.getElementById('warn_'+id);if(w&&w.style.display==='block')w.textContent=t(UI[f.check]);}});
+  if(!rval('idioma')&&!store.get(DRAFT_KEY)){}
+  refreshDynamic();render();
 }
-function restoreDraft(){
-  var raw=store.get(DRAFT_KEY);if(!raw)return;
-  try{
-    var d=JSON.parse(raw);var any=false;
-    Object.keys(d.vals||{}).forEach(function(id){var e=document.getElementById(id);if(e){e.value=d.vals[id];any=true;}});
-    (d.checks||[]).forEach(function(pair){
-      var ix=pair.indexOf('||');var name=pair.slice(0,ix),v=pair.slice(ix+2);
-      var inp=document.querySelector('input[name="'+CSS.escape(name)+'"][value="'+CSS.escape(v)+'"]');
-      if(inp){inp.checked=true;any=true;}
-    });
-    if(typeof d.step==='number'&&d.step>0&&d.step<TOTAL){current=d.step;}
-    if(any){document.getElementById('draftNote').style.display='block';setTimeout(function(){document.getElementById('draftNote').style.display='none';},5000);}
-  }catch(e){}
-}
-document.addEventListener('input',saveDraft);
-document.addEventListener('change',saveDraft);
+document.getElementById('langPt').addEventListener('click',function(){setLang('pt');saveDraft();});
+document.getElementById('langEn').addEventListener('click',function(){setLang('en');saveDraft();});
 
+// ---- código postal → concelho/freguesia ----
+var CP_MAP={"8000":"Faro","8005":"Faro","8100":"Loulé","8125":"Loulé","8135":"Loulé","8200":"Albufeira","8300":"Silves","8365":"Silves","8400":"Lagoa","8500":"Portimão","8550":"Monchique","8600":"Lagos","8650":"Vila do Bispo","8670":"Aljezur","8700":"Olhão","8800":"Tavira","8900":"Vila Real de Santo António","8950":"Castro Marim","8970":"Alcoutim","8150":"São Brás de Alportel"};
+(function(){var mun=["Albufeira","Alcoutim","Aljezur","Castro Marim","Faro","Lagoa","Lagos","Loulé","Monchique","Olhão","Portimão","São Brás de Alportel","Silves","Tavira","Vila do Bispo","Vila Real de Santo António"];
+  var d=document.createElement('datalist');d.id='dl_mun';mun.forEach(function(v){var o=document.createElement('option');o.value=v;d.appendChild(o);});document.body.appendChild(d);})();
+function fillLoc(mun,freg){
+  var m=document.getElementById('municipio'),f=document.getElementById('freguesia');
+  if(m&&!m.value&&mun){m.value=mun;document.getElementById('auto_municipio').style.display='block';}
+  if(f&&!f.value&&freg){f.value=freg;document.getElementById('auto_freguesia').style.display='block';}
+  saveDraft();
+}
+function cpLookup(){
+  var cp=val('codPostalAloj').replace(/\s/g,'');var m4=cp.match(/^(\d{4})/);if(!m4)return;
+  if(CP_MAP[m4[1]])fillLoc(CP_MAP[m4[1]],'');
+  var full=cp.match(/^(\d{4})-?(\d{3})$/);if(!full)return;
+  fetch('https://json.geoapi.pt/cp/'+full[1]+'-'+full[2]).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(!j)return;fillLoc(j.Concelho||j.concelho||'',j.Freguesia||j.freguesia||'');}).catch(function(){});
+}
+document.addEventListener('input',function(e){if(e.target.id==='codPostalAloj'){var v=e.target.value.replace(/\s/g,'');if(/^\d{4}-?\d{3}$/.test(v))cpLookup();}});
+document.addEventListener('blur',function(e){if(e.target&&e.target.id==='codPostalAloj')cpLookup();},true);
+
+// ---- sugestões de morada ----
 (function(){
-  var inp=document.getElementById('aloj_morada');var box=document.getElementById('sugg_aloj_morada');
-  if(!inp||!box)return;
-  var t=null;
-  inp.addEventListener('input',function(){
-    clearTimeout(t);
-    var q=inp.value.trim();
-    if(q.length<6){box.style.display='none';return;}
-    t=setTimeout(function(){
-      fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=pt&addressdetails=1&q='+encodeURIComponent(q),
-            {headers:{'Accept':'application/json'}})
-       .then(function(r){return r.ok?r.json():[];})
-       .then(function(list){
-         box.innerHTML='';
-         if(!list.length){box.style.display='none';return;}
-         list.forEach(function(it){
-           var b=document.createElement('button');b.type='button';
-           b.textContent=it.display_name;
-           b.addEventListener('click',function(){
-             var a=it.address||{};
-             var street=[a.road||'',a.house_number||''].join(' ').trim();
-             var local=a.village||a.town||a.city||'';
-             inp.value=street?(street+(local?', '+local:'')):it.display_name;
-             var cpEl=document.getElementById('cp');
-             if(a.postcode&&cpEl&&!cpEl.value){cpEl.value=a.postcode;}
-             fillLoc(a.municipality||a.city||a.town||a.village||'',a.state_district||a.state||'',a.suburb||a.city_district||'');
-             box.style.display='none';
-             if(cpEl&&cpEl.value)cpLookup();
-             saveDraft();
-           });
-           box.appendChild(b);
-         });
-         box.style.display='block';
-       }).catch(function(){box.style.display='none';});
-    },450);
-  });
+  var inp=document.getElementById('moradaAloj'),box=document.getElementById('sugg_moradaAloj');if(!inp||!box)return;var tm=null;
+  inp.addEventListener('input',function(){clearTimeout(tm);var q=inp.value.trim();if(q.length<6){box.style.display='none';return;}
+    tm=setTimeout(function(){
+      fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=pt&addressdetails=1&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}})
+      .then(function(r){return r.ok?r.json():[];}).then(function(list){
+        box.innerHTML='';if(!list.length){box.style.display='none';return;}
+        list.forEach(function(it){var b=document.createElement('button');b.type='button';b.textContent=it.display_name;
+          b.addEventListener('click',function(){var a=it.address||{};var street=[a.road||'',a.house_number||''].join(' ').trim();var local=a.village||a.town||a.city||'';
+            inp.value=street?(street+(local?', '+local:'')):it.display_name;
+            var cpEl=document.getElementById('codPostalAloj');if(a.postcode&&cpEl&&!cpEl.value)cpEl.value=a.postcode;
+            fillLoc(a.municipality||a.city||a.town||'',a.suburb||a.city_district||'');box.style.display='none';if(cpEl&&cpEl.value)cpLookup();saveDraft();});
+          box.appendChild(b);});box.style.display='block';}).catch(function(){box.style.display='none';});
+    },450);});
   document.addEventListener('click',function(e){if(!box.contains(e.target)&&e.target!==inp)box.style.display='none';});
 })();
 
-restoreDraft();
-refreshConds();
-render();
+// ---- rascunho ----
+var _mem={};
+var store={set:function(k,v){try{localStorage.setItem(k,v);}catch(e){_mem[k]=v;}},get:function(k){try{return localStorage.getItem(k);}catch(e){return _mem[k]||null;}},del:function(k){try{localStorage.removeItem(k);}catch(e){delete _mem[k];}}};
+var _st=null,SUBMITTED=false;
+function saveDraft(){if(SUBMITTED)return;clearTimeout(_st);_st=setTimeout(function(){
+  var d={step:current,lang:lang,vals:{},checks:[]};
+  document.querySelectorAll('#steps input,#steps textarea').forEach(function(e){
+    if(e.type==='radio'||e.type==='checkbox'){if(e.checked)d.checks.push(e.name+'||'+e.value);}else if(e.id&&e.value&&e.id!=='website')d.vals[e.id]=e.value;});
+  store.set(DRAFT_KEY,JSON.stringify(d));},300);}
+function restoreDraft(){
+  var raw=store.get(DRAFT_KEY);if(!raw)return false;
+  try{var d=JSON.parse(raw),any=false;
+    // limpar valores por omissão antes de repor
+    Object.keys(d.vals||{}).forEach(function(id){var e=document.getElementById(id);if(e){e.value=d.vals[id];if(e._sync)e._sync();any=true;}});
+    var names={};(d.checks||[]).forEach(function(p){names[p.slice(0,p.indexOf('||'))]=1;});
+    Object.keys(names).forEach(function(n){document.querySelectorAll('input[name="'+n+'"]').forEach(function(x){x.checked=false;});});
+    (d.checks||[]).forEach(function(p){var ix=p.indexOf('||');var inp=document.querySelector('input[name="'+CSS.escape(p.slice(0,ix))+'"][value="'+CSS.escape(p.slice(ix+2))+'"]');if(inp){inp.checked=true;any=true;}});
+    if(d.lang)lang=d.lang;
+    if(typeof d.step==='number'&&d.step>0&&d.step<TOTAL)current=d.step;
+    if(any){var n=document.getElementById('draftNote');n.textContent=t(UI.draft);n.style.display='block';setTimeout(function(){n.style.display='none';},6000);}
+    return any;
+  }catch(e){return false;}
+}
+function onAnyChange(){refreshConds();refreshDynamic();saveDraft();}
+document.addEventListener('input',function(e){if(e.target.closest&&e.target.closest('#steps')){if(e.target.value)e.target.classList.remove('invalid');if(!document.querySelector('#steps .invalid'))document.getElementById('navMsg').style.display='none';saveDraft();}});
+document.addEventListener('change',function(e){
+  if(e.target.name){refreshConds();refreshDynamic();var b=document.getElementById('box_'+e.target.name);if(b)b.classList.remove('invalid');}
+  if(e.target.id){e.target.classList&&e.target.classList.remove('invalid');}
+  if(!document.querySelector('#steps .invalid'))document.getElementById('navMsg').style.display='none';
+  saveDraft();});
+
+// ---- arranque ----
+var restored=restoreDraft();
+if(!restored){var dflt=document.querySelector('input[name="idioma"][value="'+(lang==='en'?'English':'Português')+'"]');if(dflt)dflt.checked=true;}
+setLang(lang);
+refreshConds();refreshDynamic();render();
 </script>
 </body>
 </html>
