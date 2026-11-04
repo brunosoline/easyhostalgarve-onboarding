@@ -342,9 +342,9 @@ var STEPS = [
 
  {id:"casa", t:["A casa","The house"], min:3, secs:[
   {fields:[
-   {id:"comodidades",l:["A casa tem…","Does the house have…"],type:"amen",opts:[["Ar condicionado","Air conditioning"],["Piscina","Pool"],["Churrasqueira","BBQ"]],hint:["Assinale só o que existe. O resto vemos consigo na visita.","Tick only what's there. We'll go through the rest with you at the visit."]},
-   {id:"acTodos",l:["Onde há ar condicionado?","Where is there air conditioning?"],type:"radio",sm:1,req:1,opts:[["Em todos os quartos","In every bedroom"],["Só em algumas divisões","Only in some rooms"]],showIf:["comodidades",["Ar condicionado"]]},
-   {id:"piscinaTipo",l:["Que piscina?","What kind of pool?"],type:"radio",sm:1,req:1,opts:[["Privada","Private"],["Partilhada","Shared"],["Privada e aquecida","Private and heated"]],showIf:["comodidades",["Piscina"]]},
+   {id:"piscina",l:["Tem piscina?","Is there a pool?"],type:"radio",sm:1,req:1,opts:[["Não","No"],["Sim, privada","Yes, private"],["Sim, partilhada","Yes, shared"]]},
+   {id:"ac",l:["Tem ar condicionado?","Is there air conditioning?"],type:"radio",sm:1,req:1,opts:[["Em todas as divisões","In every room"],["Só em algumas","Only in some rooms"],["Não","No"]]},
+   {id:"churrasqueira",l:["Tem churrasqueira?","Is there a barbecue?"],type:"radio",sm:1,req:1,opts:[SIM,NAO],hint:["O resto das comodidades vemos consigo na visita.","We'll go through the other amenities with you at the visit."]},
    {id:"distancias",l:["Distância à praia e ao centro","Distance to the beach and town"],opt:1,ph:["ex.: praia a 15 min a pé, centro a 5 min de carro","e.g. beach 15 min walk, town 5 min drive"]},
    {id:"destaques",l:["O que torna a casa especial?","What makes the house special?"],type:"textarea",rows:2,opt:1,ph:["vista, sossego, história da casa…","view, peace and quiet, the house's story…"]},
    {id:"fotos",l:["Tem fotografias profissionais?","Do you have professional photos?"],type:"radio",opts:[SIM,["Não — tratamos nós","No — we'll arrange them"]]}

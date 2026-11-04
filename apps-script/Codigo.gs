@@ -634,8 +634,12 @@ function mapearFichaWeb_(c) {
   var set = function (k, val) { if (val !== undefined && val !== null && val !== '') r[Q[k]] = val; };
   var empresa = c.tipo === 'Empresa';
   var heranca = c.tipo === 'Herança indivisa';
+  // Comodidades: perguntas diretas (piscina, ac, churrasqueira). Fichas antigas traziam uma lista em "comodidades".
   var comod = String(c.comodidades || '');
-  var tem = function (x) { return comod.split(', ').indexOf(x) >= 0; };
+  var naLista = function (x) { return comod.split(', ').indexOf(x) >= 0; };
+  var piscina = c.piscina || (naLista('Piscina') ? (c.piscinaTipo || 'Sim') : (comod ? 'Não' : ''));
+  var ac = c.ac || (naLista('Ar condicionado') ? (c.acTodos || 'Sim') : (comod ? 'Não' : ''));
+  var bbq = c.churrasqueira || (naLista('Churrasqueira') ? 'Sim' : (comod ? 'Não' : ''));
   var seg = String(c.seguranca || '').split(', ');
   var nQuartos = c.tipologia === 'T0' ? 0 : parseInt(String(c.tipologia || '').replace(/\D/g, ''), 10);
   var camasTotal = 0;
@@ -690,9 +694,9 @@ function mapearFichaWeb_(c) {
   set('licenca', c.licenca === 'Tenho' ? (c.licencaNum || 'Tem (n.º por indicar)') : (/1951/.test(c.licenca) ? 'Anterior a 1951' : ''));
   if (c.temRnal === 'Sim') set('rnal', c.rnal);
   if (c.titularProprio === 'Não') set('titularExploracao', c.titularExploracao);
-  set('piscina', tem('Piscina') ? (c.piscinaTipo || 'Sim') : 'Não tem');
-  set('ac', tem('Ar condicionado') ? (c.acTodos || 'Sim') : 'Não tem');
-  set('exterior', tem('Churrasqueira') ? 'Churrasqueira' : '');
+  set('piscina', { 'Não': 'Não tem', 'Sim, privada': 'Privada', 'Sim, partilhada': 'Partilhada' }[piscina] || piscina);
+  set('ac', ac === 'Não' ? 'Não tem' : ac);
+  set('exterior', bbq === 'Sim' ? 'Churrasqueira' : '');
   set('estacionamento', c.estacionamentoTipo || '');
   set('animais', c.animais);
   set('entrada', c.entrada);
@@ -724,9 +728,9 @@ function mapearFichaWeb_(c) {
   // Notas para a equipa (uma linha legível)
   var notas = [];
   if (c.camas) notas.push('Camas: ' + c.camas);
-  notas.push('Ar condicionado: ' + (tem('Ar condicionado') ? (c.acTodos || 'sim') : 'não'));
-  notas.push('Piscina: ' + (tem('Piscina') ? (c.piscinaTipo || 'sim') : 'não'));
-  notas.push('Churrasqueira: ' + (tem('Churrasqueira') ? 'sim' : 'não'));
+  if (ac) notas.push('Ar condicionado: ' + ac.toLowerCase());
+  if (piscina) notas.push('Piscina: ' + piscina.toLowerCase());
+  if (bbq) notas.push('Churrasqueira: ' + bbq.toLowerCase());
   if (c.entrada) notas.push('Entrada: ' + c.entrada + (c.chaves ? ' (' + c.chaves + ' jogos de chaves)' : ''));
   if (c.animais) notas.push('Animais: ' + c.animais);
   if (c.limpeza) notas.push('Limpeza: ' + c.limpeza + (c.limpezaContacto ? ' — ' + c.limpezaContacto : ''));
