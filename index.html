@@ -191,6 +191,9 @@ var UI = {
   nif:["O NIF tem 9 dígitos.","The NIF has 9 digits."],
   email:["Confirme o email.","Please check the email."],
   iban:["Confirme o IBAN.","Please check the IBAN."],
+  cp:["O código postal tem o formato 0000-000.","The postcode format is 0000-000."],
+  cpFiscal:["Em Portugal o código postal tem o formato 0000-000.","In Portugal the postcode format is 0000-000."],
+  doc:["Confirme o número: no Cartão de Cidadão são 8 dígitos (ex.: 12345678 9 ZZ1).","Please check the number: Portuguese ID cards have 8 digits (e.g. 12345678 9 ZZ1)."],
   edit:["Alterar","Edit"],
   send:["Enviar ficha","Send form"], sending:["A enviar…","Sending…"],
   okT:["Ficha recebida — obrigado!","Form received — thank you!"],
@@ -220,27 +223,44 @@ var STEPS = [
  {id:"intro", intro:true, t:["Antes de começar","Before you start"], min:0},
 
  {id:"sobre", t:["Sobre si","About you"], min:3, secs:[
-  {fields:[
-   {id:"tipo",l:["É proprietário a título…","Do you own it as…"],type:"radio",req:1,opts:[["Particular","An individual"],["Empresa","A company"]]},
-   {id:"empresa",l:["Nome da empresa","Company name"],req:1,showIf:["tipo",["Empresa"]]},
-   {id:"nome",l:["Nome completo","Full name"],req:1,hint:["Como aparece no seu documento de identificação.","As shown on your ID."],hintIf:{"tipo":{"Empresa":["Do representante legal da empresa.","Of the company's legal representative."]}},ac:"name"},
-   {id:"nif",l:["NIF","Portuguese tax number (NIF)"],req:1,im:"numeric",ph:["9 dígitos","9 digits"],hintIf:{"tipo":{"Empresa":["Indique o NIPC da empresa.","Enter the company's NIPC."]}},check:"nif"},
+  {intro:["Primeiro os dados de quem é o dono do imóvel. Os dados da casa vêm no passo 3.","First, the details of who owns the property. The house details come in step 3."],fields:[
+   {id:"tipo",l:["É proprietário a título…","Do you own it as…"],type:"radio",req:1,opts:[["Particular","An individual"],["Empresa","A company"],["Herança indivisa","Undivided estate"]],
+    hintIf:{"tipo":{"Herança indivisa":["Quando o imóvel pertence a uma herança ainda não partilhada. Quem preenche é o cabeça de casal.","When the property belongs to an estate not yet divided. The head of the estate fills this in."]}}},
+   {id:"empresa",l:["Nome da empresa","Company name"],req:1,showIf:["tipo",["Empresa"]],hint:["Como aparece na certidão permanente.","As shown on the company registration certificate."]},
+   {id:"heranca",l:["Nome da herança","Name of the estate"],req:1,showIf:["tipo",["Herança indivisa"]],ph:["ex.: Herança de João Silva","e.g. Estate of João Silva"],hint:["Como aparece nas Finanças.","As registered with the Tax Authority."]},
+   {id:"nome",l:["Nome completo do proprietário","Owner's full name"],req:1,ac:"name",
+    lIf:{"tipo":{"Empresa":["Nome do representante legal","Legal representative's full name"],"Herança indivisa":["Nome do cabeça de casal","Head of the estate's full name"]}},
+    hint:["Como aparece no documento de identificação. É o nome da pessoa — o nome da casa pedimos no passo 3.","As shown on your ID. This is the person's name — we ask for the house name in step 3."]},
+   {id:"nif",l:["NIF","Portuguese tax number (NIF)"],req:1,im:"numeric",ph:["9 dígitos","9 digits"],check:"nif",
+    lIf:{"tipo":{"Empresa":["NIPC da empresa","Company tax number (NIPC)"],"Herança indivisa":["NIF da herança","Estate tax number (NIF)"]}},
+    hintIf:{"tipo":{"Herança indivisa":["A herança tem um NIF próprio, que começa por 7. Não é o NIF do cabeça de casal.","The estate has its own NIF, starting with 7. It is not the head of the estate's personal NIF."]}}},
    {id:"email",l:["Email","Email"],type:"email",req:1,ac:"email",check:"email"},
    {id:"telemovel",l:["Telemóvel","Mobile"],type:"tel",req:1,ac:"tel",ph:["+351 912 345 678","+44 7700 900123"]},
    {id:"idioma",l:["Em que língua prefere que falemos consigo?","Which language do you prefer we use?"],type:"radio",sm:1,req:1,opts:[["Português","Portuguese"],"English","Français","Deutsch","Español","Nederlands"]}
   ]},
-  {h:["Identificação","Identification"],fields:[
-   {id:"doc",l:["N.º do Cartão de Cidadão ou passaporte","ID card or passport number"],req:1},
-   {id:"docValidade",l:["Validade do documento","Document expiry date"],type:"date",opt:1},
-   {id:"nacionalidade",l:["Nacionalidade","Nationality"],opt:1},
-   {id:"paisResidencia",l:["País onde vive","Country you live in"],type:"radio",sm:1,req:1,def:"Portugal",opts:["Portugal",["Reino Unido","United Kingdom"],["França","France"],["Alemanha","Germany"],["Países Baixos","Netherlands"],["Espanha","Spain"],["Outro","Other"]]},
+  {h:["Documento de identificação","Identity document"],fields:[
+   {id:"docTipo",l:["Tipo de documento","Type of document"],type:"radio",req:1,opts:[["Cartão de Cidadão","Portuguese ID card"],["Passaporte","Passport"],["Outro documento","Other ID document"]],
+    hintIf:{"tipo":{"Empresa":["Do representante legal.","Of the legal representative."],"Herança indivisa":["Do cabeça de casal.","Of the head of the estate."]}}},
+   {id:"doc",l:["N.º do documento","Document number"],req:1,showIf:["docTipo",["Cartão de Cidadão","Passaporte","Outro documento"]],check:"doc",
+    lIf:{"docTipo":{"Cartão de Cidadão":["N.º do Cartão de Cidadão","ID card number"],"Passaporte":["N.º do passaporte","Passport number"],"Outro documento":["Tipo e n.º do documento","Document type and number"]}},
+    hintIf:{"docTipo":{"Cartão de Cidadão":["O número que está por baixo da fotografia, ex.: 12345678 9 ZZ1.","The number under the photo, e.g. 12345678 9 ZZ1."],"Outro documento":["Ex.: Título de residência AB1234567 ou cartão de identidade europeu.","E.g. residence permit AB1234567 or EU national ID card."]}}},
+   {id:"docValidade",l:["Validade do documento","Document expiry date"],type:"date",opt:1,showIf:["docTipo",["Cartão de Cidadão","Passaporte","Outro documento"]]},
+   {id:"nacionalidade",l:["Nacionalidade","Nationality"],req:1,showIf:["docTipo",["Passaporte","Outro documento"]]}
+  ]},
+  {h:["Morada fiscal","Tax address"],intro:["É a morada que consta nas Finanças. <b>Pode ser diferente da morada do alojamento</b> — essa pedimos no passo 3.","The address registered with the Tax Authority. <b>It may differ from the property address</b> — we ask for that in step 3."],fields:[
+   {id:"paisResidencia",l:["País da morada fiscal","Country of your tax address"],type:"radio",sm:1,req:1,def:"Portugal",opts:["Portugal",["Reino Unido","United Kingdom"],["França","France"],["Alemanha","Germany"],["Países Baixos","Netherlands"],["Espanha","Spain"],["Outro","Other"]],
+    lIf:{"tipo":{"Empresa":["País da sede da empresa","Country of the company's registered office"]}}},
    {id:"paisOutro",l:["Qual?","Which one?"],req:1,showIf:["paisResidencia",["Outro"]]},
-   {id:"residenteFiscal",l:["É residente fiscal em Portugal?","Are you a tax resident in Portugal?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],hint:["Em regra, quem vive em Portugal mais de 183 dias por ano.","As a rule, anyone living in Portugal more than 183 days a year."]},
-   {id:"morada",l:["Morada fiscal completa, com código postal","Full tax address, including postcode"],type:"textarea",rows:2,req:1,ac:"street-address"}
+   {id:"residenteFiscal",l:["É residente fiscal em Portugal?","Are you a tax resident in Portugal?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],showIf:[["paisResidencia",["Reino Unido","França","Alemanha","Países Baixos","Espanha","Outro"]],["tipo",["Particular","Herança indivisa"]]],hint:["Em regra, quem vive em Portugal mais de 183 dias por ano.","As a rule, anyone living in Portugal more than 183 days a year."]},
+   {id:"morada",l:["Rua, n.º e andar","Street, number and floor"],req:1,ac:"address-line1",ph:["ex.: Rua da Liberdade 12, 2.º Esq.","e.g. 12 High Street, Flat 2"],
+    lIf:{"tipo":{"Empresa":["Morada da sede: rua, n.º e andar","Registered office: street, number and floor"]}}},
+   {id:"cpFiscal",l:["Código postal","Postcode"],req:1,ac:"postal-code",ph:["8800-000","8800-000"],check:"cpFiscal",cp:1},
+   {id:"localidadeFiscal",l:["Localidade","Town / city"],req:1,ac:"address-level2"}
   ]},
   {h:["Conta para receber as reservas","Account for booking payouts"],fields:[
    {id:"iban",l:["IBAN","IBAN"],req:1,ph:["PT50 …","PT50 …"],check:"iban",hint:["As plataformas pagam diretamente para esta conta, em seu nome. A Easy Host nunca recebe o seu dinheiro.","Platforms pay straight into this account, in your name. Easy Host never holds your money."]},
-   {id:"ibanProprio",l:["A conta está em seu nome?","Is the account in your name?"],type:"radio",req:1,def:"Sim",opts:[SIM,NAO]},
+   {id:"ibanProprio",l:["A conta está em seu nome?","Is the account in your name?"],type:"radio",req:1,def:"Sim",opts:[SIM,NAO],
+    lIf:{"tipo":{"Empresa":["A conta está em nome da empresa?","Is the account in the company's name?"],"Herança indivisa":["A conta está em nome da herança?","Is the account in the estate's name?"]}}},
    {id:"ibanTitular",l:["Titular da conta","Account holder"],req:1,showIf:["ibanProprio",["Não"]]},
    {id:"contactoAlt",l:["Contacto alternativo (nome e telefone)","Alternative contact (name and phone)"],opt:1,hint:["Alguém a quem possamos ligar se não o conseguirmos contactar.","Someone we can call if we can't reach you."]}
   ]}
@@ -249,27 +269,31 @@ var STEPS = [
  {id:"financas", t:["Finanças","Tax"], min:2, secs:[
   {intro:["Serve para faturarmos aos hóspedes em seu nome. Se não souber alguma resposta, escolha “Não sei” — tratamos disso consigo.","This lets us invoice guests in your name. If you don't know an answer, choose “Not sure” — we'll sort it out with you."],fields:[
    {id:"atividade",l:["Tem atividade aberta nas Finanças?","Do you have an activity registered with the Tax Authority?"],type:"radio",req:1,opts:[["Sim, de Alojamento Local (CAE 55201)","Yes, short-term rental (CAE 55201)"],["Sim, mas de outra atividade","Yes, but a different activity"],NAO,NAOSEI]},
-   {id:"regimeIva",l:["Regime de IVA","VAT regime"],type:"radio",req:1,opts:[["Isento (art.º 53.º)","Exempt (art. 53)"],["Regime normal","Standard regime"],NAOSEI],
+   {id:"n_ativNao",type:"note",showIf:["atividade",["Não","Não sei"]],l:["Não faz mal. Para receber de Alojamento Local é preciso abrir atividade com o CAE 55201 — tratamos disso consigo, e o regime de IVA escolhe-se nessa altura.","No problem. To receive short-term rental income you need to open an activity with CAE 55201 — we'll do it with you, and the VAT regime is chosen at that point."]},
+   {id:"n_ativOutra",type:"note",showIf:["atividade",["Sim, mas de outra atividade"]],l:["Vamos acrescentar o CAE 55201 (Alojamento Local) à sua atividade. Não precisa de abrir outra.","We'll add CAE 55201 (short-term rental) to your existing activity. No need to open a new one."]},
+   {id:"regimeIva",l:["Regime de IVA","VAT regime"],type:"radio",req:1,opts:[["Isento (art.º 53.º)","Exempt (art. 53)"],["Regime normal","Standard regime"],NAOSEI],showIf:["atividade",["Sim, de Alojamento Local (CAE 55201)","Sim, mas de outra atividade"]],
     help:{t:["Como confirmar?","How to check?"],items:[["Portal das Finanças → <b>Situação Fiscal</b> → <b>Dados Cadastrais</b> → Atividade.","Portal das Finanças → <b>Situação Fiscal</b> → <b>Dados Cadastrais</b> → Atividade."],["Ou pergunte ao seu contabilista.","Or ask your accountant."]]}},
    {id:"temContabilista",l:["Tem contabilista?","Do you have an accountant?"],type:"radio",req:1,opts:[SIM,NAO]},
    {id:"contabilista",l:["Nome do contabilista","Accountant's name"],opt:1,showIf:["temContabilista",["Sim"]]},
    {id:"contabilistaContacto",l:["Email ou telefone do contabilista","Accountant's email or phone"],opt:1,showIf:["temContabilista",["Sim"]]}
   ]},
   {h:["Acessos","Access"],fields:[
-   {id:"cmd",l:["Tem a Chave Móvel Digital ativa?","Is your Chave Móvel Digital active?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],
+   {id:"cmd",l:["Tem a Chave Móvel Digital ativa?","Is your Chave Móvel Digital active?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],showIf:["tipo",["Particular","Herança indivisa"]],
+    lIf:{"tipo":{"Herança indivisa":["O cabeça de casal tem a Chave Móvel Digital ativa?","Does the head of the estate have an active Chave Móvel Digital?"]}},
     help:{t:["O que é?","What is it?"],items:[["É a assinatura digital do Estado, ligada ao seu telemóvel. É precisa para registar o Alojamento Local.","It's the government's digital signature, linked to your phone. It's needed to register the rental."],["Ativa-se em <b>autenticacao.gov.pt</b> ou num balcão do Cidadão.","Activate it at <b>autenticacao.gov.pt</b> or at a Citizen's Shop."]]}},
-   {id:"senhaAT",l:["Tem a senha do Portal das Finanças?","Do you have your Portal das Finanças password?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI]},
+   {id:"senhaAT",l:["Tem a senha do Portal das Finanças?","Do you have your Portal das Finanças password?"],type:"radio",req:1,opts:[SIM,NAO,NAOSEI],
+    lIf:{"tipo":{"Empresa":["Tem a senha do Portal das Finanças da empresa?","Do you have the company's Portal das Finanças password?"],"Herança indivisa":["Tem a senha do Portal das Finanças da herança?","Do you have the estate's Portal das Finanças password?"]}}},
    {id:"n_senhaAT",type:"note",warn:1,showIf:["senhaAT",["Não","Não sei"]],l:["Peça-a já em portaldasfinancas.gov.pt → “Registar-se”. Chega por carta e pode demorar alguns dias — é o passo que mais atrasa o arranque.","Request it now at portaldasfinancas.gov.pt → “Registar-se”. It arrives by post and can take several days — it's the step that most often delays the start."]},
-   {id:"subAT",l:["Já criou um subutilizador das Finanças para faturação?","Have you created a Tax Portal sub-user for invoicing?"],type:"radio",req:1,opts:[SIM,["Ainda não — fazemos juntos","Not yet — we'll do it together"],["Não sei o que é","I don't know what it is"]]},
+   {id:"subAT",l:["Já criou um subutilizador das Finanças para faturação?","Have you created a Tax Portal sub-user for invoicing?"],type:"radio",req:1,opts:[SIM,["Ainda não — fazemos juntos","Not yet — we'll do it together"],["Não sei o que é","I don't know what it is"]],showIf:["senhaAT",["Sim"]]},
    {id:"n_pass",type:"note",l:["Não escreva passwords nesta ficha. Quando forem precisas, pedimo-las por um canal seguro.","Don't write any passwords in this form. When needed, we'll ask through a secure channel."]}
   ]}
  ]},
 
  {id:"imovel", t:["O imóvel","The property"], min:4, secs:[
-  {fields:[
-   {id:"nomeAloj",l:["Nome do alojamento","Property name"],opt:1,hint:["Se ainda não tem, sugerimos um.","If you don't have one yet, we'll suggest one."]},
-   {id:"moradaAloj",l:["Morada do imóvel","Property address"],req:1,sugg:1,hint:["Comece a escrever e escolha a sugestão.","Start typing and pick a suggestion."]},
-   {id:"codPostalAloj",l:["Código postal","Postcode"],req:1,ph:["8800-000","8800-000"],im:"numeric"},
+  {intro:["Agora a casa que vai receber hóspedes.","Now the house that will host guests."],fields:[
+   {id:"nomeAloj",l:["Nome do alojamento","Property name"],opt:1,ph:["ex.: Casa do Pátio","e.g. Courtyard House"],hint:["O nome da casa, como aparece (ou vai aparecer) nos anúncios — não é o seu nome. Se já tem anúncio, use o mesmo. Se ainda não tem, deixe em branco e sugerimos um.","The house's name as shown (or to be shown) in the listings — not your own name. If you already have a listing, use the same name. If not, leave it blank and we'll suggest one."]},
+   {id:"moradaAloj",l:["Morada do alojamento","Property address"],req:1,sugg:1,hint:["Onde ficam os hóspedes — não é a sua morada fiscal. Comece a escrever e escolha a sugestão.","Where guests will stay — not your tax address. Start typing and pick a suggestion."]},
+   {id:"codPostalAloj",l:["Código postal do alojamento","Property postcode"],req:1,ph:["8800-000","8800-000"],im:"numeric",check:"cp",cp:1},
    {id:"municipio",l:["Concelho","Municipality"],req:1,auto:1,dl:"dl_mun"},
    {id:"freguesia",l:["Freguesia","Parish"],opt:1,auto:1},
    {id:"maps",l:["Localização no Google Maps","Google Maps location"],opt:1,ph:["link ou coordenadas","link or coordinates"]}
@@ -318,10 +342,9 @@ var STEPS = [
 
  {id:"casa", t:["A casa","The house"], min:3, secs:[
   {fields:[
-   {id:"comodidades",l:["Assinale o que a casa tem","Tick what the house has"],type:"amen",opts:[["Ar condicionado","Air conditioning"],["Aquecimento","Heating"],["Piscina","Pool"],["Jacuzzi","Hot tub"],["Jardim","Garden"],["Varanda / terraço","Balcony / terrace"],["Churrasqueira","BBQ"],["Vista mar","Sea view"],["Estacionamento","Parking"],["Carregador elétrico","EV charger"],["Máq. lavar roupa","Washing machine"],["Máq. secar roupa","Dryer"],["Máq. lavar loiça","Dishwasher"],["Máquina de café","Coffee machine"],["Forno","Oven"],["Micro-ondas","Microwave"],["Smart TV","Smart TV"],["Lareira","Fireplace"],["Berço","Cot"],["Cadeira de bebé","High chair"],["Elevador","Lift"],["Secador de cabelo","Hair dryer"],["Ferro de engomar","Iron"],["Acesso sem degraus","Step-free access"]]},
-   {id:"piscinaTipo",l:["Piscina","Pool"],type:"radio",sm:1,opts:[["Privada","Private"],["Partilhada","Shared"],["Privada e aquecida","Private and heated"]],showIf:["comodidades",["Piscina"]]},
-   {id:"acTodos",l:["Ar condicionado","Air conditioning"],type:"radio",sm:1,opts:[["Em todos os quartos","In every bedroom"],["Só em algumas divisões","Only in some rooms"]],showIf:["comodidades",["Ar condicionado"]]},
-   {id:"estacionamentoTipo",l:["Estacionamento","Parking"],type:"radio",sm:1,opts:[["Privado","Private"],["Garagem","Garage"],["Na rua, gratuito","Free on the street"]],showIf:["comodidades",["Estacionamento"]]},
+   {id:"comodidades",l:["A casa tem…","Does the house have…"],type:"amen",opts:[["Ar condicionado","Air conditioning"],["Piscina","Pool"],["Churrasqueira","BBQ"]],hint:["Assinale só o que existe. O resto vemos consigo na visita.","Tick only what's there. We'll go through the rest with you at the visit."]},
+   {id:"acTodos",l:["Onde há ar condicionado?","Where is there air conditioning?"],type:"radio",sm:1,req:1,opts:[["Em todos os quartos","In every bedroom"],["Só em algumas divisões","Only in some rooms"]],showIf:["comodidades",["Ar condicionado"]]},
+   {id:"piscinaTipo",l:["Que piscina?","What kind of pool?"],type:"radio",sm:1,req:1,opts:[["Privada","Private"],["Partilhada","Shared"],["Privada e aquecida","Private and heated"]],showIf:["comodidades",["Piscina"]]},
    {id:"distancias",l:["Distância à praia e ao centro","Distance to the beach and town"],opt:1,ph:["ex.: praia a 15 min a pé, centro a 5 min de carro","e.g. beach 15 min walk, town 5 min drive"]},
    {id:"destaques",l:["O que torna a casa especial?","What makes the house special?"],type:"textarea",rows:2,opt:1,ph:["vista, sossego, história da casa…","view, peace and quiet, the house's story…"]},
    {id:"fotos",l:["Tem fotografias profissionais?","Do you have professional photos?"],type:"radio",opts:[SIM,["Não — tratamos nós","No — we'll arrange them"]]}
@@ -335,8 +358,7 @@ var STEPS = [
    {id:"entrada",l:["Como vão entrar os hóspedes?","How will guests get in?"],type:"radio",req:1,opts:[["Fechadura inteligente","Smart lock"],["Cofre de chaves","Key box"],["Entrega em mão","Handed over in person"],["Ainda não sei — sugiram-me","Not sure yet — please advise"]]},
    {id:"chaves",l:["Quantos jogos de chaves existem?","How many sets of keys are there?"],opt:1,im:"numeric"},
    {id:"wifiOperadora",l:["Operador de internet","Internet provider"],opt:1,ph:["ex.: MEO, NOS, Vodafone","e.g. MEO, NOS, Vodafone"]},
-   {id:"wifiRede",l:["Nome da rede Wi-Fi","Wi-Fi network name"],opt:1},
-   {id:"wifiPass",l:["Password do Wi-Fi","Wi-Fi password"],opt:1,hint:["É a que os hóspedes vão usar.","The one guests will use."]},
+   {id:"wifiRede",l:["Nome da rede Wi-Fi","Wi-Fi network name"],opt:1,hint:["A password pedimos à parte, por um canal seguro.","We'll ask for the password separately, through a secure channel."]},
    {id:"limpeza",l:["Já tem quem faça a limpeza?","Do you already have someone for cleaning?"],type:"radio",req:1,opts:[SIM,["Não — usem a vossa equipa","No — use your team"]]},
    {id:"limpezaContacto",l:["Nome e telefone","Name and phone"],opt:1,showIf:["limpeza",["Sim"]]},
    {id:"tecnicos",l:["Técnicos de confiança","Trusted tradespeople"],type:"textarea",rows:2,opt:1,ph:["canalizador, eletricista, piscina… nome e telefone","plumber, electrician, pool… name and phone"],hint:["Se não tiver, usamos a nossa rede.","If you don't have any, we'll use our network."]}
@@ -510,7 +532,17 @@ function isVisible(f){if(!f.showIf)return true;var c=Array.isArray(f.showIf[0])?
 function refreshConds(){document.querySelectorAll('.cond').forEach(function(c){c.classList.toggle('show',JSON.parse(c.dataset.conds).every(condOk));});}
 
 // ---- dicas dinâmicas ----
+// Rótulo que muda consoante respostas anteriores (lIf: {campo: {valor: [pt, en]}})
+function labelOf(f){
+  var l=f.l;
+  if(f.lIf)Object.keys(f.lIf).forEach(function(k){var m=f.lIf[k][rval(k)];if(m)l=m;});
+  return l;
+}
 function refreshDynamic(){
+  Object.keys(FIELDS).forEach(function(id){
+    var f=FIELDS[id];if(!f.lIf)return;var lab=document.getElementById('lab_'+id);if(!lab||!lab.firstChild)return;
+    lab.firstChild.innerHTML=t(labelOf(f));
+  });
   Object.keys(FIELDS).forEach(function(id){
     var f=FIELDS[id];if(!f.hintIf)return;var h=document.getElementById('hint_'+id);if(!h)return;
     var txt=f.hint?t(f.hint):'';
@@ -536,8 +568,18 @@ function refreshDynamic(){
 var CHECKS={
   nif:function(v){return /^\d{9}$/.test(v.replace(/\s/g,''));},
   email:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);},
-  iban:function(v){return /^[A-Za-z]{2}\d{2}[A-Za-z0-9]{10,30}$/.test(v.replace(/\s/g,''));}
+  iban:function(v){return /^[A-Za-z]{2}\d{2}[A-Za-z0-9]{10,30}$/.test(v.replace(/\s/g,''));},
+  cp:function(v){return /^\d{4}-?\d{3}$/.test(v.replace(/\s/g,''));},
+  cpFiscal:function(v){return rval('paisResidencia')!=='Portugal'||/^\d{4}-?\d{3}$/.test(v.replace(/\s/g,''));},
+  doc:function(v){return rval('docTipo')!=='Cartão de Cidadão'||/^\d{8}/.test(v.replace(/\s/g,''));}
 };
+// Códigos postais portugueses: 8800501 → 8800-501
+function fmtCp(v){var s=String(v||'').replace(/\s/g,'');var m=s.match(/^(\d{4})-?(\d{3})$/);return m?m[1]+'-'+m[2]:String(v||'').trim();}
+document.addEventListener('blur',function(e){
+  var f=e.target&&FIELDS[e.target.id];if(!f||!f.cp)return;
+  if(f.id==='cpFiscal'&&rval('paisResidencia')!=='Portugal')return;
+  var n=fmtCp(e.target.value);if(n!==e.target.value){e.target.value=n;saveDraft();}
+},true);
 function checkField(f,show){
   if(!f.check)return true;var v=val(f.id);if(!v)return true;
   var ok=CHECKS[f.check](v);var w=document.getElementById('warn_'+f.id);
@@ -599,7 +641,7 @@ function buildReview(){
       var shown=show(f,v);
       if(f.opts&&lang==='en'){var map={};f.opts.forEach(function(o){map[pt(o)]=t(o);});shown=v.split(', ').map(function(x){
         var m=x.match(/^(\d+) (.*)$/);if(f.type==='counters'&&m)return m[1]+' '+(map[m[2]]||m[2]);return map[x]||x;}).join(', ');}
-      var dt=el('dt');dt.innerHTML=t(f.l);var dd=el('dd');dd.textContent=shown;dl.appendChild(dt);dl.appendChild(dd);
+      var dt=el('dt');dt.innerHTML=t(labelOf(f));var dd=el('dd');dd.textContent=shown;dl.appendChild(dt);dl.appendChild(dd);
     });});
     box.appendChild(dl);reviewList.appendChild(box);
   });
@@ -607,7 +649,7 @@ function buildReview(){
 function resumoTexto(){
   var txt='FICHA DO PROPRIETÁRIO — EASY HOST ALGARVE\nEnviada em '+new Date().toLocaleString('pt-PT')+' (idioma do formulário: '+lang.toUpperCase()+')\n';
   STEPS.forEach(function(st){if(st.intro)return;txt+='\n== '+pt(st.t).toUpperCase()+' ==\n';
-    st.secs.forEach(function(sec){sec.fields.forEach(function(f){if(f.type==='note'||!isVisible(f))return;var v=fieldValue(f);if(v)txt+=pt(f.l).replace(/<[^>]+>/g,'')+': '+show(f,v)+'\n';});});});
+    st.secs.forEach(function(sec){sec.fields.forEach(function(f){if(f.type==='note'||!isVisible(f))return;var v=fieldValue(f);if(v)txt+=pt(labelOf(f)).replace(/<[^>]+>/g,'')+': '+show(f,v)+'\n';});});});
   txt+='\nAutorização: '+(document.getElementById('decl_ok').checked?'SIM — '+new Date().toLocaleDateString('pt-PT'):'NÃO');
   return txt;
 }
